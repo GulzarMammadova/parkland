@@ -1,0 +1,8 @@
+.ftr{ background: var(--forest); color: var(--ivory); padding:48px 0; }
+.ftr__grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:24px; margin-bottom:24px; }
+.ftr__brand{ font-family:'Playfair Display',serif; color: var(--gold); margin:0 0 12px; }
+.ftr__text{ color:#E8E3D0; margin:0; line-height:1.6; }
+.ftr__h4{ font-family:'Playfair Display',serif; color: var(--gold); margin:0 0 12px; }
+.ftr__link{ display:block; color:#E8E3D0; text-decoration:none; margin-bottom:8px; }
+.ftr__link:hover{ text-decoration:underline; }
+.ftr__bottom{ padding-top:16px; border-top:1px solid #6C6A5A; text-align:center; color:#E8E3D0; }

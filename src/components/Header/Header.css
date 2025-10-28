@@ -1,0 +1,94 @@
+.hdr{
+  width:100%;
+  background: transparent;
+ /* backdrop-filter: blur(8px);*/
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  top: 0;
+  z-index: 50;
+}
+.hdr__row{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 0;
+}
+.hdr__brand{
+  font-family:'Playfair Display',serif;
+  font-size:22px; letter-spacing:.4px; color:var(--forest);
+}
+.hdr__brand-logo{
+  width: 13%;
+  height: 100%;
+}
+.hdr__nav{
+  display:flex; 
+  align-items:center;
+   gap:20px;
+}
+.hdr__link{
+  text-decoration:none;
+   color:var(--ivory); font-weight:600;
+  padding:8px 10px; border-radius:8px;
+}
+.hdr__link:hover{ background: var(--forest); }
+.hdr__lang{
+  display:inline-flex; border:1px solid #3e4c3a33; border-radius:999px; overflow:hidden;
+}
+.hdr__langBtn{
+  padding:6px 12px; background:transparent; border:none; font-weight:600; cursor:pointer;
+}
+.hdr__langBtn.is-active{
+  background: var(--forest); color: var(--ivory);
+}
+.hdr__burger{ display:none; border:1px solid #3e4c3a33; padding:8px 10px; border-radius:10px; background:transparent; font-weight:700; }
+/* --- всегда скрываем мобильное меню по умолчанию --- */
+.hdr__mobile{
+  display: none !important; /* критично, чтобы не всплывало на desktop */
+  position: relative;
+  width: 100%;
+  background: rgba(250,248,243,0.95);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  z-index: 40;             /* ниже хедера, но над контентом */
+}
+
+/* --- мобильное поведение --- */
+@media (max-width: 900px){
+  .hdr__nav{ display:none; }      /* прячем десктоп-навигацию */
+  .hdr__burger{ display:block; }  /* показываем бургер */
+
+  /* показываем мобильное меню ТОЛЬКО когда открыт бургер */
+  .hdr__mobile.is-open{
+    display: block !important;
+  }
+
+  .hdr__mobile .container{
+    padding: 12px 48px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hdr__mobileLink{
+    display:block;
+    padding: 10px 0;
+    text-decoration:none;
+    color: var(--forest);
+    font-weight: 600;
+  }
+
+  .hdr__lang--mobile{ margin: 8px 0 6px; }
+}
+
+
+@media (max-width: 900px){
+  .hdr__nav{ display:none; }
+  .hdr__burger{ display:block; }
+  .hdr__mobile{
+    display:none; border-top:1px solid var(--border); background: #faf8f3e6;
+  }
+  .hdr__mobile.is-open{ display:block; }
+  .hdr__mobileLink{
+    display:block; padding:12px 0; text-decoration:none; color:var(--forest); font-weight:600;
+  }
+  .hdr__lang--mobile{ margin:8px 0 16px; }
+}

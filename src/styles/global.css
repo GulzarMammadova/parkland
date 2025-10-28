@@ -1,0 +1,21 @@
+@import "./variables.css";
+
+html, body, #root {
+  height: 100%;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.container{
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 48px;
+}
+
+.section{
+  padding: 80px 0;
+}
+
+.hidden{
+  display:none;
+}
