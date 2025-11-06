@@ -1,6 +1,25 @@
-.team__header{ text-align:center; margin-bottom:64px; }
-.team__title{ font-size: var(--h2); margin:0 0 12px; }
-.team__sub{ color:var(--olive); max-width:720px; margin:0 auto; line-height:1.6; }
+.team__header{
+  display: flex;
+  flex-direction: column;   
+  align-items: center;      
+  justify-content: center;  
+  text-align: center;
+  margin-bottom: 64px;
+}
+.team__title{
+  font-size: var(--h2);
+  margin: 0 0 12px 0;      
+  border-bottom: 2px solid var(--forest);
+  border-image: linear-gradient(90deg, #7ED957, #0E9F49) 1;
+  width: fit-content;
+  text-align: center;
+}
+.team__sub{
+  color: var(--olive);
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.6;
+  text-align: center; }
 
 .team__grid{ display:grid; gap:24px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); max-width:800px; margin:0 auto; }
 .team__grid--founders{ grid-template-columns: repeat(2,1fr); max-width:560px; margin-bottom:48px; }

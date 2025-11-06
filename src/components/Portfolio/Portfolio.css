@@ -1,23 +1,86 @@
-.portfolio{ background: var(--beige); }
-.portfolio__header{ text-align:center; margin-bottom:64px; }
-.portfolio__title{ font-size: var(--h2); margin:0 0 16px; }
-.portfolio__sub{ color:var(--olive); font-size:18px; line-height:1.6; max-width:640px; margin:0 auto; }
+.portfolio{ 
+  background: var(--beige); 
+}
+
+.portfolio__header{ 
+  display: flex;
+  flex-direction: column;   
+  align-items: center;      
+  justify-content: center;  
+  text-align: center;
+  margin-bottom: 30px;}
+.portfolio__title{ 
+  font-size: var(--h2);
+  margin: 0 0 12px 0;      
+  border-bottom: 2px solid var(--forest);
+  border-image: linear-gradient(90deg, #7ED957, #0E9F49) 1;
+  width: fit-content;
+  text-align: center; }
+.portfolio__sub{ 
+  color: var(--olive);
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.6;
+  text-align: center; }
+
+  /* кнопка See All */
+.see-all-container{
+  display:flex;
+  justify-content:center;
+  margin-top:14px;
+}
+
+
+.see-all-btn{
+      display:inline-block;
+      background:var(--gold); color:var(--ivory);
+       padding:9px 32px; 
+       border-radius:8px;
+        font-weight:600;
+         text-decoration:none; 
+         transition:.3s;
+}
+
+.see-all-btn:hover{ background: var(--ivory); }
+.see-all-btn:hover span{ color: var(--forest); }
+/* адаптив — по центру на узких экранах */
+@media (max-width:768px){
+  .see-all-container{ justify-content:center; }
+}
+/* language segmented switch (shared) */
+.langSwitch{
+  display:inline-flex; align-items:center; gap:4px;
+  padding:4px; border-radius:999px;
+  background: #3e4c3ad9;
+  box-shadow: inset 0 0 0 1px #faf8f314;
+}
 
 .portfolio__grid{
-  display:grid; gap:32px;
+  display:grid;
+   gap:32px;
   grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
 }
 
-.portfolio__dots{ display:flex; justify-content:center; gap:8px; margin-top:32px; }
+.portfolio__dots{ display:flex;
+   justify-content:center; 
+   gap:8px; 
+   margin-top:32px; }
 .portfolio__dot{
-  width:8px; height:8px; border-radius:999px; background:rgba(108,106,90,0.3);
+  width:8px;
+   height:8px;
+    border-radius:999px; 
+    background:#6c6a5a4d;
   border:none; cursor:pointer; transition:.3s;
 }
-.portfolio__dot.is-active{ width:32px; background: var(--gold); }
+.portfolio__dot.is-active{
+   width:32px;
+    background: var(--gold); }
 
 .pCard{
-  position:relative; border-radius:var(--radius); overflow:hidden; aspect-ratio:4/3;
-  box-shadow: 0 10px 24px rgba(0,0,0,.1);
+  position:relative; 
+  border-radius:var(--radius); 
+  overflow:hidden; aspect-ratio:4/3;
+  box-shadow: 0 10px 24px #0000001a;
 }
 .pCard__imageWrap{ position:relative; width:100%; height:100%; }
 .pCard__imageStage{ position:absolute; inset:0; opacity:0; transition: opacity 1s ease; }
@@ -33,3 +96,125 @@
 .pCard__bars{ position:absolute; top:24px; left:24px; display:flex; gap:6px; }
 .pCard__bar{ height:4px; width:8px; border-radius:999px; background: rgba(255,255,255,.4); transition:.3s; }
 .pCard__bar.is-active{ width:32px; background: var(--gold); }
+
+.portfolio__container {
+  position: relative;
+}
+
+/* стрелки */
+.portfolio__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 56px;
+  height: 56px;
+  top:56%;
+  border-radius: 50%;
+  border: none;
+  background: #3e4c3a40; /* forest 25% */
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+}
+
+.portfolio__arrow:hover {
+  background: var(--gold);
+  color: var(--forest);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.portfolio__arrow--left {
+  left: 16px;
+}
+
+.portfolio__arrow--right {
+  right: 16px;
+}
+
+/* адаптив */
+@media (max-width: 768px) {
+  .portfolio__arrow {
+    width: 44px;
+    height: 44px;
+    top: 56%;
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio__arrow {
+    display: none;
+  }
+}
+
+/* сетка проектов */
+.portfolio__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+/* карточки */
+.pCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+.pCard__imageWrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.pCard__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease;
+}
+.pCard:hover .pCard__image {
+  transform: scale(1.05);
+}
+.pCard__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #3e4c3ae6, #3e4c3a33);
+}
+.pCard__text {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 3;
+}
+.pCard__cat {
+  color: var(--gold);
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.pCard__title {
+  color: var(--ivory);
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  line-height: 1.3;
+}
+.pCard__bars {
+  position: absolute;
+  top: 12px;
+  left: 24px;
+  display: flex;
+  gap: 4px;
+}
+.pCard__bar {
+  width: 16px;
+  height: 3px;
+  background: #ffffff4d;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.pCard__bar.is-active {
+  background: var(--gold);
+  width: 28px;
+}

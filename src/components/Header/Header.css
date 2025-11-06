@@ -1,94 +1,130 @@
+:root{
+  --hdr-h: 72px;
+}
+
+/* БАЗА */
 .hdr{
-  width:100%;
+  inset: 0 0 auto 0;
+  height: var(--hdr-h, 72px); 
+  backdrop-filter: blur(1px);
+  border-bottom: 1px solid #3e4c3a1a;
+  z-index: 60;
+}
+
+.hdr--home{
+  position: absolute;
   background: transparent;
- /* backdrop-filter: blur(8px);*/
-  border-bottom: 1px solid var(--border);
-  position: relative;
+}
+
+.hdr--footerTheme{
+  position: sticky;
   top: 0;
-  z-index: 50;
+  left: 0; right: 0;
+  background: var(--forest);
+  border-bottom: 1px solid #faf8f31f;
+  box-shadow: 0 6px 18px #00000014;
 }
-.hdr__row{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px 0;
-}
-.hdr__brand{
-  font-family:'Playfair Display',serif;
-  font-size:22px; letter-spacing:.4px; color:var(--forest);
-}
-.hdr__brand-logo{
-  width: 13%;
+
+.hdr__container{
+  max-width: 1440px;
+  margin: 0 auto;
   height: 100%;
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: space-between;
 }
-.hdr__nav{
-  display:flex; 
-  align-items:center;
-   gap:20px;
-}
+
+.hdr__logo_img{ width: 100px; }
+
+.hdr__nav{ display: flex; gap: 40px; }
 .hdr__link{
-  text-decoration:none;
-   color:var(--ivory); font-weight:600;
-  padding:8px 10px; border-radius:8px;
-}
-.hdr__link:hover{ background: var(--forest); }
-.hdr__lang{
-  display:inline-flex; border:1px solid #3e4c3a33; border-radius:999px; overflow:hidden;
-}
-.hdr__langBtn{
-  padding:6px 12px; background:transparent; border:none; font-weight:600; cursor:pointer;
-}
-.hdr__langBtn.is-active{
-  background: var(--forest); color: var(--ivory);
-}
-.hdr__burger{ display:none; border:1px solid #3e4c3a33; padding:8px 10px; border-radius:10px; background:transparent; font-weight:700; }
-/* --- всегда скрываем мобильное меню по умолчанию --- */
-.hdr__mobile{
-  display: none !important; /* критично, чтобы не всплывало на desktop */
   position: relative;
-  width: 100%;
-  background: rgba(250,248,243,0.95);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid var(--border);
-  z-index: 40;             /* ниже хедера, но над контентом */
+  text-decoration: none;          
+  color: var(--ivory);
+  font: 400 15px/1 "Inter", sans-serif;
+  padding-bottom: 4px;
+  transition: color .25s ease;
 }
-
-/* --- мобильное поведение --- */
-@media (max-width: 900px){
-  .hdr__nav{ display:none; }      /* прячем десктоп-навигацию */
-  .hdr__burger{ display:block; }  /* показываем бургер */
-
-  /* показываем мобильное меню ТОЛЬКО когда открыт бургер */
-  .hdr__mobile.is-open{
-    display: block !important;
-  }
-
-  .hdr__mobile .container{
-    padding: 12px 48px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .hdr__mobileLink{
-    display:block;
-    padding: 10px 0;
-    text-decoration:none;
-    color: var(--forest);
-    font-weight: 600;
-  }
-
-  .hdr__lang--mobile{ margin: 8px 0 6px; }
+.hdr__link:hover{ color: var(--gold); }
+.hdr__link::after{
+  content:"";
+  position:absolute; left:0; bottom:0;
+  width:0%; height:1.5px;
+  background: var(--gold);
+  transition: width .3s ease;
 }
+.hdr__link:hover::after{ width:100%; }
 
+/* language switch */
+.langSwitch{ display:inline-flex; align-items:center; gap:4px;
+  padding:4px; border-radius:999px;
+  background:#3e4c3ad9; box-shadow: inset 0 0 0 1px #faf8f314;
+}
+.langSwitch__btn{
+  border:0; border-radius:999px; background:transparent;
+  padding:6px 14px; cursor:pointer;
+  font:600 12.5px/1 'Inter',system-ui,sans-serif;
+  letter-spacing:.3px; color:#faf8f3e0;
+  transition: color .2s, background .25s, transform .08s;
+}
+.langSwitch__btn:hover{ color:#faf8f3; }
+.langSwitch__btn.is-active{ background:var(--gold); color:var(--forest); }
 
+/* бургер */
+.hdr__burger{ display:none; margin-left:8px; width:36px; height:28px; position:relative;
+  background:transparent; border:0; cursor:pointer;
+}
+.hdr__burger span{ position:absolute; left:0; right:0; height:2px; background:var(--forest);
+  transition: transform .25s, opacity .2s, top .25s;
+}
+.hdr__burger span:nth-child(1){ top:5px; }
+.hdr__burger span:nth-child(2){ top:13px; }
+.hdr__burger span:nth-child(3){ top:21px; }
+.hdr__burger.is-open span:nth-child(1){ top:13px; transform:rotate(45deg); }
+.hdr__burger.is-open span:nth-child(2){ opacity:0; }
+.hdr__burger.is-open span:nth-child(3){ top:13px; transform:rotate(-45deg); }
+
+/* на тёмной теме линии бургера светлые */
+.hdr--footerTheme .hdr__burger span{ background: var(--ivory); }
+
+/* mobile nav */
+.mnav{
+  position: fixed; left:0; right:0; top: var(--hdr-h, 72px);
+  background: rgba(250,248,243,.95); backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(62,76,58,.10);
+  transform: translateY(-10px);
+  opacity: 0; pointer-events: none;
+  transition: transform .25s, opacity .25s;
+  z-index: 59;
+}
+.mnav.is-open{ transform: translateY(0); opacity: 1; pointer-events: auto; }
+.mnav__inner{ padding:16px 24px 24px; display:flex; flex-direction:column; gap:8px; }
+.mnav__link{
+  display:block; padding:12px 2px; text-decoration:none;
+  color: var(--forest); font:600 16px/1.2 "Inter",sans-serif;
+  border-bottom: 1px solid rgba(62,76,58,.08);
+  transition: color .2s;
+}
+.mnav__link:hover{ color: var(--gold); }
+
+/* overlay */
+.mnav__overlay{
+  position: fixed; inset: 0; top: var(--hdr-h,72px);
+  background: rgba(0,0,0,.25);
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+  z-index: 58;
+}
+.mnav__overlay.is-open{ opacity: 1; pointer-events: auto; }
+
+/* responsive */
 @media (max-width: 900px){
+  .hdr__container{ padding:0 20px; }
   .hdr__nav{ display:none; }
-  .hdr__burger{ display:block; }
-  .hdr__mobile{
-    display:none; border-top:1px solid var(--border); background: #faf8f3e6;
-  }
-  .hdr__mobile.is-open{ display:block; }
-  .hdr__mobileLink{
-    display:block; padding:12px 0; text-decoration:none; color:var(--forest); font-weight:600;
-  }
-  .hdr__lang--mobile{ margin:8px 0 16px; }
+  .hdr__container > .langSwitch{ display:none; }
+  .hdr__burger{ display:block; margin-left:auto; }
+}
+@media (min-width: 901px){
+  .mnav, .mnav__overlay{ display: none !important; }
 }

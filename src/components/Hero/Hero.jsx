@@ -15,14 +15,14 @@ export function Hero(){
     EN:{ title:"Creating Harmony Between Nature and Design", 
       sub:"ParkLand transforms outdoor spaces into luxurious sanctuaries where elegance meets the natural world.",
        cta:"See Our Projects" },
-    AZ:{ title:"Təbiət və dizayn arasında harmoniya yaradırıq", sub:"ParkLənd açıq məkanları zərifliklə təbiətin qovuşduğu lüks sığınacaqlara çevirir.", cta:"Layihələrimiz" }
+    AZ:{ title:"Təbiət və dizayn arasında harmoniya yaradırıq", sub:"ParkLand açıq məkanları zərifliklə təbiətin qovuşduğu lüks sığınacaqlara çevirir.", cta:"Layihələrimiz" }
   };
 
   return (
     <section id="hero" className="hero">
       <div className="hero__bg">
         <ImageWithFallback className="hero__img" 
-       img src={"../../../public/img/main pic2.jpg"} alt="Luxury garden"/>
+        src={"../../../public/img/main pic 4.jpg"} alt="Luxury garden"/>
         <div className="hero__overlay"></div>
       </div>
 

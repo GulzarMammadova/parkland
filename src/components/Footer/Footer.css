@@ -1,8 +1,135 @@
-.ftr{ background: var(--forest); color: var(--ivory); padding:48px 0; }
-.ftr__grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:24px; margin-bottom:24px; }
-.ftr__brand{ font-family:'Playfair Display',serif; color: var(--gold); margin:0 0 12px; }
-.ftr__text{ color:#E8E3D0; margin:0; line-height:1.6; }
-.ftr__h4{ font-family:'Playfair Display',serif; color: var(--gold); margin:0 0 12px; }
-.ftr__link{ display:block; color:#E8E3D0; text-decoration:none; margin-bottom:8px; }
-.ftr__link:hover{ text-decoration:underline; }
-.ftr__bottom{ padding-top:16px; border-top:1px solid #6C6A5A; text-align:center; color:#E8E3D0; }
+.ftr {
+  background: var(--green);
+  color: var(--ivory);
+  padding: 64px 0 48px;
+  border-top: 1px solid;
+border-image:linear-gradient(90deg,var(--grad-a),var(--grad-b)) 1;
+}
+
+.ftr__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.ftr__brand {
+  font-family: "Playfair Display", serif;
+  color: var(--gold);
+  font-size: 22px;
+  margin: 0 0 16px;
+}
+.hdr__brand-logo{
+  width: 100px;
+}
+.ftr__text {
+  color: #e8e3d0;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 420px;
+}
+
+.ftr__h4 {
+  font-family: "Playfair Display", serif;
+  color: var(--gold);
+  font-size: 20px;
+  margin: 0 0 16px;
+}
+
+/* Contact items with icons */
+/* строка контакта — теперь это <a> */
+.ftr__contactItem{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+  text-decoration:none;
+  padding:6px 8px;
+  border-radius:10px;
+  transition: background .25s ease, color .25s ease;
+  color:#E8E3D0;            /* базовый цвет текста */
+}
+
+/* кружок с иконкой */
+.ftr__iconWrap{
+  background: #e8e3d026;
+  border-radius:50%;
+  width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  transition: background .25s ease, transform .25s ease;
+}
+
+/* линия иконки (lucide-react — это stroke) */
+.ftr__icon{
+  width:18px; height:18px;
+  stroke: var(--gold);
+  transition: stroke .2s ease, opacity .2s ease;
+  
+}
+/* Контурные иконки — бежевые по умолчанию */
+.social-icon path {fill:none;stroke:var(--muted);stroke-width:1.6;transition:all .3s ease;}
+
+
+/* При наведении — заливаются градиентом */
+.social-icon:hover path {
+fill: url(#parklandGradient);
+stroke:none;
+}
+/* подпись справа */
+.ftr__label{
+  font-size:15px;
+  transition: color .25s ease;
+  color:#E8E3D0;
+}
+
+/* ОБЩИЙ HOVER: навёл на текст или на иконку — реагирует всё */
+.ftr__contactItem:hover{
+  color: var(--gold);   
+              /* цвет всей строки (на случай наследования) */
+}
+
+.ftr__contactItem:hover .ftr__label{
+  color: var(--gold);               /* текст становится золотым */
+}
+
+.ftr__contactItem:hover .ftr__iconWrap{
+  background: var(--gold);          /* кружок заливается золотым */
+  transform: translateY(-1px);      /* лёгкий «подъём» */
+}
+
+.ftr__contactItem:hover .ftr__icon{
+  stroke: transparent;              /* линии иконки исчезают */
+  opacity: 0;
+}
+
+/* адаптив */
+@media (max-width: 768px){
+  .ftr__iconWrap{ width:32px; height:32px; }
+  .ftr__icon{ width:16px; height:16px; }
+}
+
+/* Bottom line */
+.ftr__bottom {
+  border-top: 1px solid #e8e3d033;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #e8e3d0;
+}
+
+@media (max-width: 768px) {
+  .ftr {
+    padding: 48px 0;
+  }
+
+  .ftr__grid {
+    gap: 32px;
+  }
+
+  .ftr__contactItem {
+    gap: 10px;
+  }
+
+ .ftr__iconWrap{ width:32px; height:32px; }
+  .ftr__icon{ width:16px; height:16px; }
+}

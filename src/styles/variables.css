@@ -1,13 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
 :root{
-  --forest: #3E4C3A;
-  --gold: #BDA776;
-  --ivory: #FAF8F3;
-  --olive: #6C6A5A;
-  --beige: #E8E3D0;
-  --border: rgba(62,76,58,0.12);
+  --forest: #0E9F49; /*Главный фирменный оттенок — используется для заголовков, кнопок, иконок*/
+  --ivory: #FAF8F3; /*Нежный, тёплый фон - основные секции сайта.*/
+  --olive: #3B3B33; /*Основной цвет текста (приглушённый, не чёрный).*/
+  --beige: #E8E3D0; /*Для карточек, цитат, футера-верхней части.*/
+  --mossgray: #7A7A6C; /*Для описаний, вспомогательных надписей.*/
+  --sandgold: #BDA776; /*Для иконок, декоративных элементов, цитат, тонких линий*/
+  --gold: #BDA776;/*Для иконок, декоративных элементов, цитат, тонких линий*/
+  --hoverbg: #2FAE5D; /*Для лёгких анимаций кнопок и ссылок.*/
+  --error: #D9644A; /*Если понадобится для форм или сообщений.*/
+  --green: #2e572b;
+  --lime: #9ac42d;
+  --border: #3e4c3a1f;
+  --underline: #30b42d;
+  --muted:#CFCBBE;
+  --grad-a:#7ED957; /*Для градиентов, акцентов, hover-эффектов, иконок.*/
+  --grad-b:#0E9F49; /*Для градиентов, акцентов, hover-эффектов, иконок.*/
+  --card:#0F120F;
+
   --radius: 12px;
+
+  --forest: #2e572b;
+  --forest1: #3E4C3A;
+  --gold1: #BDA776;
+  --ivory1: #FAF8F3;
+  --olive1: #6C6A5A;
+  --beige1: #E8E3D0;
 
   --h1: 48px;
   --h2: 36px;
@@ -23,4 +42,5 @@ html, body{
 
 h1,h2,h3,h4{
   font-family: 'Playfair Display', serif;
+  color: #0E9F49;
 }

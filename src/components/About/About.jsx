@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import "./About.css";
 import { motion, useInView } from "motion/react";
-import { Leaf, Award, Users } from "lucide-react";
+import { Trees, Award, Users } from "lucide-react";
 import { useLang } from "../../context/LanguageContext";
+
 
 function ImageWithFallback({ src, alt, ...rest }) {
   const [err, setErr] = useState(false);
@@ -19,7 +20,7 @@ export function About(){
       p1:"For over two decades, ParkLənd has been at the forefront of luxury landscape design, transforming residential and commercial properties into breathtaking natural retreats.",
       p2:"Every project is a collaboration, blending our expertise with your vision to create landscapes that inspire, rejuvenate, and endure.",
       features:[
-        { icon:Leaf,  title:"Eco-Conscious Design",     desc:"Sustainable practices that honor and enhance the natural environment" },
+        { icon:Trees,  title:"Eco-Conscious Design",     desc:"Sustainable practices that honor and enhance the natural environment" },
         { icon:Award, title:"Award-Winning Excellence", desc:"Recognized for innovative landscape architecture and design mastery" },
         { icon:Users, title:"Personalized Approach",    desc:"Tailored solutions that reflect your unique vision and lifestyle" },
       ]},
@@ -27,7 +28,7 @@ export function About(){
       p1:"İyirmi ildən artıqdır ki, ParkLənd lüks landşaft dizaynında ön sıralardadır, yaşayış və kommersiya məkanlarını heyranedici təbiət guşələrinə çevirir.",
       p2:"Hər layihə əməkdaşlıqdır: ekspertizamız sizin baxışınızla vəhdət təşkil edir ki, ruhlandıran və uzunömürlü məkanlar yaransın.",
       features:[
-        { icon:Leaf,  title:"Ekoloji yanaşma",         desc:"Təbiəti qoruyan və zənginləşdirən dayanıqlı praktikalar" },
+        { icon:Trees,  title:"Ekoloji yanaşma",         desc:"Təbiəti qoruyan və zənginləşdirən dayanıqlı praktikalar" },
         { icon:Award, title:"Mükafatlı ustalıq",       desc:"Yenilikçi landşaft memarlığı və dizayn ustalığı ilə tanınırıq" },
         { icon:Users, title:"Fərdiləşdirilmiş yanaşma", desc:"Sizin baxış və həyat tərzinizi əks etdirən həllər" },
       ]}

@@ -6,10 +6,17 @@
 .hero__content{ position:relative;
      z-index:1; text-align:center;
       padding:10px 24px 80px; color:var(--ivory); }
-.hero__title{ font-size: var(--h1); margin:0 0 24px; }
+.hero__title{ font-size: var(--text); margin:0 0 24px; }
 .hero__sub{ color: var(--beige); font-size:18px; line-height:1.6; max-width:640px; margin:0 auto 40px; }
 
-.hero__btn{ display:inline-block; background:var(--gold); color:var(--ivory); padding:14px 32px; border-radius:8px; font-weight:600; text-decoration:none; transition:.3s; }
+.hero__btn{ 
+      display:inline-block;
+      background:var(--gold); color:var(--ivory);
+       padding:14px 32px; 
+       border-radius:8px;
+        font-weight:600;
+         text-decoration:none; 
+         transition:.3s; }
 .hero__btn:hover{ background: var(--ivory); }
 .hero__btn:hover span{ color: var(--forest); }
 
