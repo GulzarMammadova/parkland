@@ -1,66 +1,36 @@
-.allproj .container{ 
-    max-width:1200px; 
-    margin:0 auto;
-padding-top: 14px;
-justify-content: center; }
-.allproj__head{ 
-    margin-bottom:32px; }
-.allproj__title{ 
-    font-size:28px; 
-    line-height:1.2; 
-    letter-spacing:.4px; 
-    text-transform:uppercase; }
-
-/* 12-колоночная сетка */
-.allproj__grid{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  gap:20px;
+/* .allproj {
+  background: var(--pl-bg, #FAF8F3);
+  padding: 60px 0;
 }
 
-/* Карточка: общее */
-.card{
-  background:#fff;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 10px 24px #00000014;
-  transition:transform .28s ease, box-shadow .28s ease;
-}
-.card:hover{ transform:translateY(-6px); box-shadow:0 16px 36px #0000001f; }
-.card__imgWrap{ position:relative; width:100%; }
-.card__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-.card__overlay{
-  position:absolute; left:0; right:0; bottom:0; height:45%;
-  background:linear-gradient(to top, #0000008c, #00000038 45%, #00000000);
-  pointer-events:none;
-}
-.card__label{
-  position:absolute; left:14px; bottom:12px;
-  color:#fff; font-size:15px; font-weight:600; text-shadow:0 2px 8px #00000059;
+.allproj__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
-/* Базовое соотношение через паддинг-хак, разное для типов */
-.card--s .card__imgWrap::before{ content:""; display:block; padding-bottom:75%; }        /* 4:3 */
-.card--wide .card__imgWrap::before{ content:""; display:block; padding-bottom:56.25%; }   /* 16:9 */
-.card--tall .card__imgWrap::before{ content:""; display:block; padding-bottom:130%; }     /* ~3:4 высокая */
-.card--big .card__imgWrap::before{ content:""; display:block; padding-bottom:75%; }       /* 4:3 крупная */
-
-/* Спаны по колонкам (на 12-колоночной сетке) */
-.card--s   { grid-column:span 4; }   /* три в ряд */
-.card--wide{ grid-column:span 8; }   /* широкая */
-.card--tall{ grid-column:span 4; }   /* узкая, но высокая */
-.card--big { grid-column:span 8; }   /* крупная 2/3 ширины */
-
-/* Адаптив: планшет (6 колонок) — широкие/крупные в одну строку, остальное по 2 в ряд */
-@media (max-width:1100px){
-  .allproj{ padding:56px 16px; }
-  .allproj__title{ font-size:24px; }
-  .card--s, .card--tall { grid-column:span 3; }  /* 2 в ряд */
-  .card--wide, .card--big { grid-column:span 6; }/* на всю ширину сетки */
+.allproj__head {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-/* Мобилка: всё в одну колонку */
-@media (max-width:640px){
-  .allproj__grid{ grid-template-columns:repeat(12,1fr); }
-  .card--s, .card--tall, .card--wide, .card--big { grid-column:span 12; }
+.allproj__title {
+  font-size: clamp(28px, 3vw, 42px);
+  color: var(--pl-text, #2a2a2a);
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 600;
 }
+
+.allproj__subtitle {
+  margin-top: 12px;
+  color: #555;
+  font-size: 15px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+  font-weight: 400;
+}
+ */

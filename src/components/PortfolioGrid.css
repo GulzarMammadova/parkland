@@ -1,0 +1,156 @@
+/* ===== PortfolioGrid.css (патч) ===== */
+
+:root{
+  --pl-bg:#FAF8F3;
+  --pl-card:#FFFFFF;
+  --pl-beige:#BDA776;
+  --pl-beige-2:#E8E3D0;
+  --pl-green-1:#7ED957;
+  --pl-green-2:#0E9F49;
+  --pl-text:#2a2a2a;
+}
+
+.pl-section{
+  padding: 48px 16px;
+  background: var(--pl-bg);
+}
+
+.pl-header{
+  max-width: 1100px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+
+.pl-title{
+  font-size: clamp(24px, 3vw, 36px);
+  margin: 0;
+  color: var(--pl-text);
+  letter-spacing: 0.3px;
+}
+
+.pl-sub{
+  margin: 8px auto 0;
+  max-width: 720px;
+  color: #555;
+  font-size: 14px;
+}
+
+/* --- GRID --- */
+.pl-grid{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+/* Сбрасываем margin у figure, устраняем глобальные конфликты */
+.pl-card{
+  margin: 0; 
+  position: relative !important;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--pl-card);
+  box-shadow: 0 8px 24px rgba(14,159,73,0.06), 0 2px 8px rgba(0,0,0,0.04);
+  outline: 1px solid rgba(189,167,118,0.28);
+  cursor: zoom-in;
+  transition: transform .25s ease, box-shadow .25s ease, outline-color .25s ease;
+}
+.pl-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(14,159,73,0.14), 0 4px 12px rgba(0,0,0,0.08);
+  outline-color: rgba(189,167,118,0.5);
+}
+
+/* --- IMG --- */
+/* ВАЖНО: убираем глобальные стили, которые могли прятать картинки */
+.pl-card .pl-img{
+  display: block !important;
+  position: static !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  width: 100%;
+  /* Надёжная высота без «схлопывания»: */
+  aspect-ratio: 4/3;
+  height: auto;
+  object-fit: cover;
+
+  background: var(--pl-beige-2);
+}
+
+/* --- CAPTION --- */
+.pl-caption{
+  position: absolute;
+  left: 10px; right: 10px; bottom: 10px;
+  border-radius: 12px;
+  background: rgba(250,248,243,0.88);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  color: #2a2a2a;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 8px 10px;
+  text-transform: capitalize;
+  z-index: 2;
+}
+
+.pl-cat{
+  font-size: 11px;
+  font-weight: 600;
+  color: #0E9F49;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.pl-name{
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* --- SKELETON --- */
+.skeleton{
+  aspect-ratio: 4/3;
+  background: linear-gradient(90deg, #eee, #f6f6f6, #eee);
+  background-size: 200% 100%;
+  animation: pl-shine 1.2s linear infinite;
+  border-radius: 16px;
+  outline: 1px solid rgba(189,167,118,0.25);
+}
+@keyframes pl-shine{
+  0%{ background-position: 200% 0; }
+  100%{ background-position: -200% 0; }
+}
+
+/* --- LIGHTBOX --- */
+.pl-lightbox{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+  padding: 24px;
+}
+
+.pl-lightbox-img{
+  max-width: min(92vw, 1600px);
+  max-height: 86vh;
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+  background: #111;
+}
+
+.pl-close{
+  position: fixed;
+  top: 18px; right: 18px;
+  width: 40px; height: 40px; border-radius: 12px;
+  border: none; cursor: pointer;
+  font-size: 26px; line-height: 1;
+  color: white; background: linear-gradient(135deg, var(--pl-green-1), var(--pl-green-2));
+  box-shadow: 0 6px 16px rgba(14,159,73,0.4);
+}
+.pl-close:hover{ filter: brightness(1.07); }
