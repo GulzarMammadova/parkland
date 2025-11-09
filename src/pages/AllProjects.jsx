@@ -1,53 +1,55 @@
-import React from "react";
-import "./AllProjects.css";
-import { useLang } from "../context/LanguageContext";
-
-/** 51 карточка с предсказуемыми изображениями (заменишь на реальные) */
-const PROJECTS = Array.from({ length: 51 }, (_, i) => ({
-  id: i + 1,
-  title: `Project ${i + 1}`,
-  image: `https://picsum.photos/seed/parkland-${i + 1}/1200/900`,
-}));
-
-/** Паттерн размеров карточек: s (обычная), wide (широкая), tall (высокая), big (крупная) */
-const PATTERN = ["wide","s","s","tall","s","wide","s","tall","big","s","s","tall"];
+import { useMemo, useState } from "react";
+import ProjectCard from "../components/ProjectCard"; // та же карточка, что в Portfolio-стиле
+import { PROJECTS } from "../data/projects";        // твои данные (массив объектов)
+import "../styles/projects.css";
 
 export default function AllProjects() {
-  const { lang } = useLang();
-  const texts = {
-    EN: { title: "All Projects", caption: (t) => t },
-    AZ: { title: "Bütün Layihələr", caption: (t) => t },
-    RU: { title: "Все проекты", caption: (t) => t },
+  const STEP = 4; // сколько карточек добавлять за клик
+  const [visibleCount, setVisibleCount] = useState(STEP);
+
+  const visible = useMemo(
+    () => PROJECTS.slice(0, visibleCount),
+    [visibleCount]
+  );
+
+  const handleViewMore = () => {
+    setVisibleCount((prev) => Math.min(prev + STEP, PROJECTS.length));
   };
-  const t = texts[lang] || texts.EN;
+
+  const isAllVisible = visibleCount >= PROJECTS.length;
 
   return (
-    <section className="allproj section">
-      <div className="container">
-        <header className="allproj__head">
-          <h1 className="allproj__title">{t.title}</h1>
-        </header>
+    <main className="pl-wrap">
+      <section className="pl-hero">
+        <h1 className="pl-hero__title">All Projects</h1>
+        <p className="pl-hero__subtitle">
+          Explore our complete portfolio of premium, eco-elegant landscape designs.
+        </p>
+      </section>
 
-        <div className="allproj__grid allproj__grid--mosaic">
-          {PROJECTS.map((p, i) => {
-            const kind = PATTERN[i % PATTERN.length]; // повторяем паттерн
-            return (
-              <article key={p.id} className={`card card--${kind}`}>
-                <div className="card__imgWrap">
-                  <img
-                    className="card__img"
-                    src={p.image}
-                    alt={t.caption(p.title)}
-                    loading="lazy"
-                  />
-                  <div className="card__overlay" />
-                  <div className="card__label">{t.caption(p.title)}</div>
-                </div>
-              </article>
-            );
-          })}
+      <section className="pl-grid">
+        {visible.map((p, idx) => (
+          <div
+            key={p.id}
+            className="pl-appear"             // анимация появления
+            style={{ animationDelay: `${(idx % STEP) * 80}ms` }}
+          >
+            <ProjectCard img={p.img} tag={p.tag} title={p.title} />
+          </div>
+        ))}
+      </section>
+
+      {!isAllVisible && (
+        <div className="pl-more">
+          <button type="button" className="pl-btn" onClick={handleViewMore}>
+            VIEW MORE
+          </button>
         </div>
-      </div>
-    </section>
+      )}
+
+      {PROJECTS.length === 0 && (
+        <p className="pl-empty">Projects will appear here soon.</p>
+      )}
+    </main>
   );
 }

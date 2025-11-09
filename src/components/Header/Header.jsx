@@ -8,14 +8,21 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("about");
   const location = useLocation();
-  const isProjectsPage = location.pathname === "/projects";
 
-  // 🔸 активное меню: на /projects всегда "portfolio"
+  // 🔸 Скролл при переходе на /#id
   useEffect(() => {
-    if (isProjectsPage) {
-      setActive("portfolio");
-      return;
+    if (!location.hash) return;
+    const id = decodeURIComponent(location.hash.slice(1));
+    const el = document.getElementById(id);
+    if (el) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 0);
     }
+  }, [location.pathname, location.hash]);
+
+  // 🔸 Активная секция (подсветка в меню)
+  useEffect(() => {
     const ids = ["about", "services", "team", "portfolio"];
     const obs = new IntersectionObserver(
       (entries) => {
@@ -31,19 +38,23 @@ export function Header() {
       if (el) obs.observe(el);
     });
     return () => obs.disconnect();
-  }, [isProjectsPage]);
+  }, []);
 
-  // блок скролла при открытом меню
+  // 🔸 Блок скролла при открытом меню
   useEffect(() => {
     const prev = document.body.style.overflow || "";
     document.body.style.overflow = open ? "hidden" : prev;
-    return () => { document.body.style.overflow = prev; };
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [open]);
 
-  // авто-закрытие бургера на десктопе
+  // 🔸 Авто-закрытие бургера на десктопе
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 901px)");
-    const onChange = (e) => { if (e.matches) setOpen(false); };
+    const onChange = (e) => {
+      if (e.matches) setOpen(false);
+    };
     if (mq.matches) setOpen(false);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -54,7 +65,7 @@ export function Header() {
       { id: "about", label: "About" },
       { id: "services", label: "Services" },
       { id: "team", label: "Team" },
-      { id: "portfolio", label: "Projects" }, // чуть логичнее для /projects
+      { id: "portfolio", label: "Projects" }, // 🔹 теперь ведёт к секции portfolio
     ],
     AZ: [
       { id: "about", label: "Haqqımızda" },
@@ -64,22 +75,21 @@ export function Header() {
     ],
   };
 
-  // 🔸 КУДА ведёт каждый пункт:
-  // - "portfolio" → всегда /projects
-  // - остальные → на главную с якорем (/#id, даже если сейчас /)
-  const linkTo = (id) => {
-    if (id === "portfolio") return "/projects";
-    return `/#${id}`;
-  };
+  // 🔸 Формируем ссылки — ВСЕ идут на главную с якорем
+  const linkTo = (id) => ({ pathname: "/", hash: `#${id}` });
 
   const onNavClick = () => setOpen(false);
 
   return (
-    <header className={`hdr ${isProjectsPage ? "hdr--footerTheme" : "hdr--home"}`}>
+    <header className="hdr hdr--home">
       <div className="hdr__container">
         {/* Логотип → главная */}
         <Link to="/" className="hdr__logo" aria-label="ParkLand">
-          <img className="hdr__logo_img" src="/img/Parkland_logo.png" alt="ParkLand" />
+          <img
+            className="hdr__logo_img"
+            src="/img/Parkland_logo.png"
+            alt="ParkLand"
+          />
         </Link>
 
         {/* Desktop меню */}
@@ -125,12 +135,17 @@ export function Header() {
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
-          <span></span><span></span><span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
 
       {/* Overlay + Mobile меню */}
-      <div className={`mnav__overlay ${open ? "is-open" : ""}`} onClick={() => setOpen(false)} />
+      <div
+        className={`mnav__overlay ${open ? "is-open" : ""}`}
+        onClick={() => setOpen(false)}
+      />
       <nav className={`mnav ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <div className="mnav__inner">
           {menu[lang].map((item) => (
@@ -147,14 +162,24 @@ export function Header() {
           <div className="mnav__lang">
             <div className="langSwitch">
               <button
-                className={`langSwitch__btn ${lang === "AZ" ? "is-active" : ""}`}
-                onClick={() => { setLang("AZ"); setOpen(false); }}
+                className={`langSwitch__btn ${
+                  lang === "AZ" ? "is-active" : ""
+                }`}
+                onClick={() => {
+                  setLang("AZ");
+                  setOpen(false);
+                }}
               >
                 AZ
               </button>
               <button
-                className={`langSwitch__btn ${lang === "EN" ? "is-active" : ""}`}
-                onClick={() => { setLang("EN"); setOpen(false); }}
+                className={`langSwitch__btn ${
+                  lang === "EN" ? "is-active" : ""
+                }`}
+                onClick={() => {
+                  setLang("EN");
+                  setOpen(false);
+                }}
               >
                 ENG
               </button>
