@@ -36,7 +36,8 @@
   justify-content: space-between;
 }
 
-.hdr__logo_img{ width: 100px; }
+.hdr__logo_img{ width: 100px; 
+margin-top: 15px;}
 
 .hdr__nav{ display: flex; gap: 40px; }
 .hdr__link{

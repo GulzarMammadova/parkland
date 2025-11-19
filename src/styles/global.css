@@ -1,7 +1,8 @@
 @import "./variables.css";
 
-html, body, #root {
-  height: 100%;
+html, body, #root{
+ /* height: 100%;*/
+ --header-h: 80px;
 }
 * { box-sizing: border-box; }
 body { margin: 0; }
@@ -13,9 +14,41 @@ body { margin: 0; }
 }
 
 .section{
-  padding: 57px 0;
+  padding: 30px 0;
 }
 
 .hidden{
   display:none;
+}
+/* ====== Полноэкранные секции только для десктопов ====== */
+@media (min-width: 1024px) {
+  section.section,
+  section.portfolio,
+  section.services,
+  section.about,
+  section.hero {
+    min-height: 100vh;              /* занимает всю высоту экрана */
+    display: flex;                  /* выравнивание содержимого */
+    flex-direction: column;
+    justify-content: center;        /* по вертикали по центру */
+    align-items: center;            /* по горизонтали по центру */
+    box-sizing: border-box;
+    padding: 60px 0;                /* воздух внутри секции */
+  }
+
+  /* чтобы контент не прилипал к краям */
+  .section .container,
+  .portfolio__container,
+  .services__container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    min-height: calc(100vh - var(--header-h, 80px));
+  }
+
+}
+
+/* ====== Плавность при переходе между секциями ====== */
+html {
+  scroll-behavior: smooth;
 }

@@ -1,20 +1,19 @@
-
-import React, { Suspense } from "react";
+import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
-import { LoadingOverlay } from "./components/LoadingOverlay";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { AnimatePresence } from "motion/react";
 import { PageFade } from "./components/PageFade";
 import AllProjects from "./pages/AllProjects";
 import GalleryAdmin from "./components/GalleryAdmin";
 
-const Hero = React.lazy(() => import("./components/Hero/Hero").then(m => ({ default: m.Hero })));
-const About = React.lazy(() => import("./components/About/About").then(m => ({ default: m.About })));
-const Services = React.lazy(() => import("./components/Services/Services").then(m => ({ default: m.Services })));
-const Team = React.lazy(() => import("./components/Team/Team").then(m => ({ default: m.Team })));
-const Portfolio = React.lazy(() => import("./components/Portfolio/Portfolio").then(m => ({ default: m.Portfolio })));
+// 🔹 БЕЗ lazy — обычные импорты
+import { Hero } from "./components/Hero/Hero";
+import { About } from "./components/About/About";
+import { Services } from "./components/Services/Services";
+import { Team } from "./components/Team/Team";
+import { Portfolio } from "./components/Portfolio/Portfolio";
 
 function AppRoutes() {
   const location = useLocation();
@@ -33,8 +32,22 @@ function AppRoutes() {
             </PageFade>
           }
         />
-        <Route path="/projects" element={<PageFade><AllProjects /></PageFade>} />
-        <Route path="/admin/media" element={<PageFade><GalleryAdmin /></PageFade>} />
+        <Route
+          path="/projects"
+          element={
+            <PageFade>
+              <AllProjects />
+            </PageFade>
+          }
+        />
+        <Route
+          path="/admin/media"
+          element={
+            <PageFade>
+              <GalleryAdmin />
+            </PageFade>
+          }
+        />
       </Routes>
     </AnimatePresence>
   );
@@ -44,10 +57,9 @@ export default function App() {
   return (
     <>
       <Header />
-      <Suspense fallback={<LoadingOverlay />}>
-        <ScrollToTop />
-        <AppRoutes />
-      </Suspense>
+      {/* всё грузится вместе, без Suspense */}
+      <ScrollToTop />
+      <AppRoutes />
       <Footer />
     </>
   );

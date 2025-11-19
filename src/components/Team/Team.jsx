@@ -1,80 +1,295 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Team.css";
-import { motion, useInView } from "motion/react";
 import { useLang } from "../../context/LanguageContext";
+import { supabase } from "../../lib/supabaseClient";
+import { motion, useInView } from "motion/react";
 
-function ImageWithFallback({ src, alt, ...rest }) {
-  const [err, setErr] = useState(false);
-  const initials = (alt||"").split(" ").map(w=>w[0]||"").join("").toUpperCase().slice(0,2);
-  if (err) return <div className="team__fallback" {...rest}>{initials}</div>;
-  return <img src={src} alt={alt} onError={()=>setErr(true)} {...rest} />;
+// ===== настройки Supabase =====
+const BUCKET = "projects";
+const TEAM_PREFIX = "team";
+
+// какие файлы считаем изображениями
+const IMG_RE = /\.(jpe?g|png|webp|avif|gif)$/i;
+const isImage = (name = "") => IMG_RE.test(name);
+
+/* ===== helpers ===== */
+
+function getPublicUrl(path) {
+  return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
 }
 
-export function Team(){
-  const ref = useRef(null);
-  const inView = useInView(ref, { once:true, amount:0.2 });
+async function fetchJsonFromStorage(path) {
+  const url = getPublicUrl(path);
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
+  return res.json();
+}
+
+function prettify(s = "") {
+  const t = s.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
+  return t
+    .split(" ")
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : ""))
+    .join(" ");
+}
+
+/** "leyla-aliyeva--Landscape-Architect.jpg"
+ *  -> { slug:"leyla-aliyeva", nameEn:"Leyla Aliyeva", roleEn:"Landscape Architect" }
+ */
+function parseMemberFromFilename(fileName = "") {
+  const base = fileName.replace(/\.[^.]+$/, "");
+  const [left, right] = base.split("--");
+  const slug = (left || "").toLowerCase();
+  const nameEn = prettify(slug);
+  const roleEn = right ? prettify(right) : "";
+  return { slug, nameEn, roleEn };
+}
+
+/* ===== лёгкая анимация для всей сетки (дополнительно к выезду слева) ===== */
+const gridVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.19, 1, 0.22, 1] },
+  },
+};
+
+export function Team() {
   const { lang } = useLang();
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const copy = {
-    EN:{ title:"Our Team", sub:"Meet the passionate professionals dedicated to transforming your outdoor spaces." },
-    AZ:{ title:"Komandamız", sub:"Açıq məkanlarınızı dəyişməyə həsr olunmuş peşəkarlarla tanış olun." }
+  useEffect(() => {
+    let mounted = true;
+
+    async function load() {
+      try {
+        setLoading(true);
+
+        // 1) локализации из team/team.json (опционально)
+        let dict = { members: {} };
+        try {
+          dict = await fetchJsonFromStorage(`${TEAM_PREFIX}/team.json`);
+        } catch (e) {
+          console.warn("No team.json or failed to load:", e?.message);
+        }
+
+        // 2) список файлов из папки "team"
+        const { data: list, error } = await supabase.storage
+          .from(BUCKET)
+          .list(TEAM_PREFIX, {
+            limit: 1000,
+            sortBy: { column: "name", order: "asc" },
+          });
+
+        if (error) throw error;
+
+        const files = (list || []).filter(
+          (it) => it.metadata && isImage(it.name)
+        );
+
+        files.sort((a, b) => a.name.localeCompare(b.name));
+
+        // 3) собираем карточки, убирая дубликаты по slug
+        const out = [];
+        const seen = new Set();
+
+        for (const f of files) {
+          const path = `${TEAM_PREFIX}/${f.name}`;
+          const photo = getPublicUrl(path);
+          const base = parseMemberFromFilename(f.name);
+
+          if (!base.slug) continue;
+          if (seen.has(base.slug)) continue;
+          seen.add(base.slug);
+
+          const mRec = dict.members?.[base.slug] || {};
+          const nameAz = mRec.name?.az || base.nameEn;
+          const nameEn = mRec.name?.en || base.nameEn;
+          const roleAz = mRec.role?.az || base.roleEn;
+          const roleEn = mRec.role?.en || base.roleEn;
+
+          out.push({
+            id: path,
+            slug: base.slug,
+            nameEn,
+            nameAz,
+            roleEn,
+            roleAz,
+            photo,
+          });
+        }
+
+        if (mounted) setMembers(out);
+      } catch (e) {
+        console.error("Team load error:", e);
+        if (mounted) setMembers([]);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const texts = {
+    EN: { title: "Our Team", sub: "" },
+    AZ: { title: "Komandamız", sub: "" },
   };
+  const t = texts[lang] || texts.EN;
 
-  const founders = [
-    { name:"Aysel Mammadova", roleEN:"Co-Founder & Lead Designer", roleAZ:"Həm-təsisçi və Baş dizayner",
-      image:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&w=1200&q=80" },
-    { name:"Eldar Aliyev", roleEN:"Co-Founder & Landscape Architect", roleAZ:"Həm-təsisçi və Landşaft memarı",
-      image:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&w=1200&q=80" },
-  ];
-  const team = [
-    { name:"Nigar Hasanova", roleEN:"Senior Designer", roleAZ:"Baş dizayner",
-      image:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&w=1200&q=80" },
-    { name:"Rashad Ismayilov", roleEN:"Project Manager", roleAZ:"Layihə meneceri",
-      image:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&w=1200&q=80" },
-    { name:"Leyla Ahmadova", roleEN:"Horticulture Specialist", roleAZ:"Bitki mütəxəssisi",
-      image:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&w=1200&q=80" },
-    { name:"Farid Huseynov", roleEN:"Installation Coordinator", roleAZ:"Quraşdırma koordinatoru",
-      image:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&w=1200&q=80" },
-  ];
+  const founders = members.filter(
+    (m) =>
+      (m.roleEn || "").toLowerCase().includes("founder") ||
+      (m.roleAz || "").toLowerCase().includes("təsisçi")
+  );
+  const others = members.filter((m) => !founders.includes(m));
+
+  const foundersGridClass =
+    "team__grid team__grid--founders" +
+    (founders.length === 1 ? " team__grid--founders--single" : "");
+
+  // === наблюдаем за всей секцией, чтобы включить анимацию выезда слева ===
+  const sectionRef = useRef(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   return (
-    <section id="team" className="team section" ref={ref}>
-      <div className="container">
-        <motion.div initial={{opacity:0,y:30}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:.8}} className="team__header">
-          <h2 className="team__title">{copy[lang].title}</h2>
-          <p className="team__sub">{copy[lang].sub}</p>
-        </motion.div>
-
-        <div className="team__grid team__grid--founders">
-          {founders.map((f,i)=>(
-            <motion.div key={f.name} initial={{opacity:0,x:-50}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.6,delay:i*.15}} className="tCard"
-              onMouseEnter={(e)=> e.currentTarget.querySelector("img")?.classList.add("is-zoom")}
-              onMouseLeave={(e)=> e.currentTarget.querySelector("img")?.classList.remove("is-zoom")}
-            >
-              <div className="tCard__photo">
-                <ImageWithFallback className="tCard__img" src={f.image} alt={f.name}/>
-              </div>
-              <h3 className="tCard__name">{f.name}</h3>
-              <p className="tCard__role tCard__role--gold">{lang==="EN"?f.roleEN:f.roleAZ}</p>
-            </motion.div>
-          ))}
+    <section
+      id="team"
+      ref={sectionRef}
+      className={`team section ${inView ? "team--visible" : ""}`}
+    >
+      <div className="container team__container">
+        <div className="team__header">
+          <h2 className="team__title">{t.title}</h2>
+          <p className="team__sub">{t.sub}</p>
         </div>
 
-        <div className="team__grid">
-          {team.map((m,i)=>(
-            <motion.div key={m.name} initial={{opacity:0,x:-50}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.6,delay:.3+i*.15}} className="tCard"
-              onMouseEnter={(e)=> e.currentTarget.querySelector("img")?.classList.add("is-zoom")}
-              onMouseLeave={(e)=> e.currentTarget.querySelector("img")?.classList.remove("is-zoom")}
-            >
-              <div className="tCard__photo">
-                <ImageWithFallback className="tCard__img" src={m.image} alt={m.name}/>
+        {loading ? (
+          <div className="team__grid">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div className="tCard" key={i}>
+                <div className="team__fallback">PL</div>
+                <p className="tCard__name" style={{ opacity: 0.5 }}>
+                  Loading…
+                </p>
               </div>
-              <h4 className="tCard__name">{m.name}</h4>
-              <p className="tCard__role">{lang==="EN"?m.roleEN:m.roleAZ}</p>
-            </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <>
+            {founders.length > 0 && (
+              <motion.div
+                className={foundersGridClass}
+                variants={gridVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                {founders.map((m) => {
+                  const name =
+                    lang === "AZ" ? m.nameAz || m.nameEn : m.nameEn;
+                  const role =
+                    lang === "AZ" ? m.roleAz || m.roleEn : m.roleEn;
+
+                  const initials =
+                    name &&
+                    name
+                      .split(" ")
+                      .filter(Boolean)
+                      .map((w) => w[0])
+                      .join("")
+                      .slice(0, 3);
+
+                  return (
+                    <article className="tCard tCard--founder" key={m.id}>
+                      <div className="tCard__photo">
+                        {m.photo ? (
+                          <img
+                            className="tCard__img"
+                            src={m.photo}
+                            alt={name}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : (
+                          <div className="team__fallback">
+                            {initials || "PL"}
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="tCard__name">{name}</h3>
+                      <p className="tCard__role tCard__role--gold">
+                        {role}
+                      </p>
+                    </article>
+                  );
+                })}
+              </motion.div>
+            )}
+
+            {others.length > 0 && (
+              <motion.div
+                className="team__grid"
+                variants={gridVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                {others.map((m) => {
+                  const name =
+                    lang === "AZ" ? m.nameAz || m.nameEn : m.nameEn;
+                  const role =
+                    lang === "AZ" ? m.roleAz || m.roleEn : m.roleEn;
+
+                  const initials =
+                    name &&
+                    name
+                      .split(" ")
+                      .filter(Boolean)
+                      .map((w) => w[0])
+                      .join("")
+                      .slice(0, 3);
+
+                  return (
+                    <article className="tCard" key={m.id}>
+                      <div className="tCard__photo">
+                        {m.photo ? (
+                          <img
+                            className="tCard__img"
+                            src={m.photo}
+                            alt={name}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : (
+                          <div className="team__fallback">
+                            {initials || "PL"}
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="tCard__name">{name}</h3>
+                      <p className="tCard__role">{role}</p>
+                    </article>
+                  );
+                })}
+              </motion.div>
+            )}
+
+            {!others.length && !founders.length && (
+              <p style={{ textAlign: "center", marginTop: 24 }}>
+                Team will appear here soon.
+              </p>
+            )}
+          </>
+        )}
       </div>
     </section>
   );
 }
+
+export default Team;

@@ -25,7 +25,9 @@ border-image: linear-gradient(90deg, #7ED957, #0E9F49) 1
 .serviceCard{
   position:relative; 
   border-radius:var(--radius);
-   overflow:hidden; aspect-ratio:3/4;
+   overflow:hidden; 
+   /*aspect-ratio:4/3;*/
+   aspect-ratio: 3/2;
    cursor:pointer;
   transition: transform .4s ease;
 }
@@ -43,5 +45,5 @@ border-image: linear-gradient(90deg, #7ED957, #0E9F49) 1
    padding:24px; 
    color:var(--ivory); 
    font-size:20px;
-    font-family:'Playfair Display',serif;
-     margin:0; }
+   font-family:'Playfair Display',serif;
+   margin:0; }
