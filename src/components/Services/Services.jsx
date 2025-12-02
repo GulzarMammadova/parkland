@@ -8,11 +8,7 @@ function ImageWithFallback({ src, alt, ...rest }) {
   const [err, setErr] = useState(false);
   return (
     <img
-      src={
-        err
-          ? "/img/fallback.jpg"
-          : src
-      }
+      src={err ? "/img/fallback.jpg" : src}
       alt={alt}
       onError={() => setErr(true)}
       {...rest}
@@ -29,41 +25,34 @@ export function Services() {
     EN: {
       h2: "Our Services",
       items: [
-        "Landscape Design",
-        "Garden Installation",
-        "Water Features",
-        "Sustainable Landscaping",
-        "Outdoor Living Spaces",
-        "Maintenance & Care",
-        "Landscape Lighting",
-        "Hardscape Design",
+        "Landscape Design ",
+        "Hardscape (concrete, stone, asphalt works)",
+        "Softscape (lawn, tree, shrubs, flowers)",
+        "MEP (infrastructure, electrical, lighting, irrigation)",
+        "Outside furniture and metal works",
+        "Fito works",
       ],
     },
     AZ: {
       h2: "Xidmətlərimiz",
       items: [
         "Landşaft Dizaynı",
-        "Bağların Qurulması",
-        "Su Kompozisiyaları",
-        "Davamlı Landşaft",
-        "Açıq Məkanda Yaşayış Zonaları",
-        "Baxım və Qulluq",
-        "Landşaft İşıqlandırması",
-        "Sərt Landşaft Dizaynı",
+        "Hardscape işləri (beton, daş, asfalt)",
+        "Softscape işləri (qazon, ağac, kol, gül)",
+        "MEP – İnfrastruktur, elektrik, işıqlandırma və suvarma sistemləri",
+        "Çöl mebelləri və metal konstruksiya işləri",
+        "Fito işləri",
       ],
     },
   };
 
-  // ЛОКАЛЬНЫЕ ИЗОБРАЖЕНИЯ из /public/img/services/
   const images = [
     "/img/services/Landscape Design.jpg",
-    "/img/services/Garden Installation.avif",        
-    "/img/services/Water Features.avif",
-    "/img/services/Sustainable Landscaping.avif",
-    "/img/services/Outdoor Living Spaces.jpg",
-    "/img/services/Maintenance & Care.avif",
-    "/img/services/Landscape Lighting.avif",
-    "/img/services/Hardscape Design.avif",
+    "/img/services/Hardscape.jpg",
+    "/img/services/Softscape.avif",
+    "/img/services/MEP.jpg",
+    "/img/services/Outside furniture and metal works.jpg",
+    "/img/services/Fito works.jpg",
   ];
 
   return (
@@ -82,26 +71,19 @@ export function Services() {
           {images.map((img, i) => (
             <motion.div
               key={i}
+              className="serviceCard"
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="serviceCard"
-              onMouseEnter={(e) =>
-                (e.currentTarget.querySelector("img").style.transform =
-                  "scale(1.1)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.querySelector("img").style.transform =
-                  "scale(1)")
-              }
             >
               <ImageWithFallback
                 className="serviceCard__img"
                 src={img}
                 alt={titles[lang].items[i]}
               />
-              <div className="serviceCard__overlay"></div>
-              <h3 className="serviceCard__title">{titles[lang].items[i]}</h3>
+              <h3 className="serviceCard__title">
+                {titles[lang].items[i]}
+              </h3>
             </motion.div>
           ))}
         </div>

@@ -150,11 +150,11 @@ html:focus-within{ scroll-behavior:smooth; }
 }
 .pCard:hover .pCard__image{ transform: scale(1.03); }
 
-/* затемнение снизу */
+/* затемнение снизу 
 .pCard__overlay{
   position:absolute; inset:0;
   background: linear-gradient(to top, #3e4c3ae6, #3e4c3a66, transparent);
-}
+}*/
 
 /* текст */
 .pCard__text{
@@ -163,8 +163,9 @@ html:focus-within{ scroll-behavior:smooth; }
   right:0;
   bottom:0;
   padding:24px; 
-color:var(--ivory);
+  color:#F2E8D5;
    z-index:2;
+  
   /*   background: linear-gradient(to top,
   #bda77673,
   #bda77600
@@ -173,24 +174,58 @@ color: #FAF8F3;
 backdrop-filter: blur(4px);*/
 }
 .pCard__cat{ color:var(--gold); margin:0 0 4px; }
-.pCard__title{ font-family:'Playfair Display',serif; font-size:24px; margin:0; }
+.pCard__title{ 
+  font-family:'Playfair Display',serif; 
+  font-size:24px;
+   margin:0;
+  color:#F2E8D5;
+text-shadow: 0 2px 6px #00000073; }
 
 /* ==========
    КНОПКИ-ПОЛОСКИ (слева сверху)
 ========== */
-.pCard__bars{
-  position:absolute; top:12px; left:24px;
-  display:flex; gap:6px; z-index:3;
+.pCard__bars {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;              /* можно подправить под твой макет */
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
 }
-.pCard__bar{
-  width:18px; height:4px; border-radius:999px;
-  background:#ffffff4d; border:none; cursor:pointer;
-  transition: width .25s ease, background .25s ease, transform .15s ease;
-  outline:none;
+/* Одна точка */
+.pCard__bar {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #bda776;  /* золото ParkLand */
+  background: rgba(255, 255, 255, 0.85);
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  opacity: 0.7;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
 }
-.pCard__bar:hover{ transform: translateY(-1px); }
-.pCard__bar.is-active{ width:28px; background: var(--gold); }
-.pCard__bar:focus-visible{ box-shadow: 0 0 0 2px var(--gold); }
+
+/* Активная точка */
+.pCard__bar.is-active {
+  background: #bda776;
+  border-color: #bda776;
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+/* Ховер (только для десктопа, по желанию) */
+.pCard__bar:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
 
 /* ==========
    ТОЧКИ/ДОП. НАВИГАЦИЯ (если используешь)

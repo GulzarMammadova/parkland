@@ -9,7 +9,7 @@ export function Header() {
   const [active, setActive] = useState("about");
   const location = useLocation();
 
-  // 🔸 Скролл при переходе на /#id
+  // Скролл при переходе на /#id
   useEffect(() => {
     if (!location.hash) return;
     const id = decodeURIComponent(location.hash.slice(1));
@@ -21,7 +21,7 @@ export function Header() {
     }
   }, [location.pathname, location.hash]);
 
-  // 🔸 Активная секция (подсветка в меню)
+  // Активная секция (подсветка в меню)
   useEffect(() => {
     const ids = ["about", "services", "team", "portfolio"];
     const obs = new IntersectionObserver(
@@ -40,7 +40,7 @@ export function Header() {
     return () => obs.disconnect();
   }, []);
 
-  // 🔸 Блок скролла при открытом меню
+  // Блок скролла при открытом меню
   useEffect(() => {
     const prev = document.body.style.overflow || "";
     document.body.style.overflow = open ? "hidden" : prev;
@@ -49,7 +49,7 @@ export function Header() {
     };
   }, [open]);
 
-  // 🔸 Авто-закрытие бургера на десктопе
+  // Авто-закрытие бургера на десктопе
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 901px)");
     const onChange = (e) => {
@@ -65,7 +65,7 @@ export function Header() {
       { id: "about", label: "About" },
       { id: "services", label: "Services" },
       { id: "team", label: "Team" },
-      { id: "portfolio", label: "Projects" }, // 🔹 теперь ведёт к секции portfolio
+      { id: "portfolio", label: "Projects" }, // ведёт к секции portfolio
     ],
     AZ: [
       { id: "about", label: "Haqqımızda" },
@@ -75,7 +75,7 @@ export function Header() {
     ],
   };
 
-  // 🔸 Формируем ссылки — ВСЕ идут на главную с якорем
+  // Формируем ссылки — ВСЕ идут на главную с якорем
   const linkTo = (id) => ({ pathname: "/", hash: `#${id}` });
 
   const onNavClick = () => setOpen(false);
@@ -87,7 +87,7 @@ export function Header() {
         <Link to="/" className="hdr__logo" aria-label="ParkLand">
           <img
             className="hdr__logo_img"
-            src="/img/Parkland_logo.png"
+            src="/img/Parkland_logo.PNG"
             alt="ParkLand"
           />
         </Link>

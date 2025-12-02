@@ -3,9 +3,33 @@
 html, body, #root{
  /* height: 100%;*/
  --header-h: 80px;
+   scroll-behavior: smooth;
 }
 * { box-sizing: border-box; }
-body { margin: 0; }
+
+body {
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #bda776 #f5f1e8;
+  overscroll-behavior: none;
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #f5f1e8;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #bda776;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #a48c63;
+}
 
 .container{
   max-width: 1440px;
@@ -51,4 +75,36 @@ body { margin: 0; }
 /* ====== Плавность при переходе между секциями ====== */
 html {
   scroll-behavior: smooth;
+}
+/* 🌿 Базовые переменные под фирменные цвета ParkLand */
+:root {
+  --scrollbar-bg: #FAF8F3;      /* светлый фон (можно #E8E3D0) */
+  --scrollbar-thumb: #BDA776;   /* золотистый ползунок */
+  --scrollbar-thumb-hover: #A48C63; /* чуть темнее при наведении */
+}
+
+/* Firefox: тонкий и аккуратный скролл */
+* {
+  scrollbar-width: thin; /* auto | thin | none */
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
+/* WebKit-браузеры: Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 6px;              /* толщина полосы */
+  height: 6px;             /* для горизонтального скролла (если появится) */
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+  border: 1px solid #00000008; /* лёгкий объём */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }

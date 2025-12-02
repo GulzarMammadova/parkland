@@ -6,7 +6,7 @@ import { Phone, Mail, Instagram } from "lucide-react";
 export function Footer(){
   const { lang } = useLang();
   const copy = {
-    EN:{ contact:"Contact", blurb:"Creating harmony between nature and design through luxury landscape architecture.", rights:"All rights reserved." },
+    EN:{ contact:"Contact", blurb:"Gardens with character. Spaces with soul.", rights:"All rights reserved." },
     AZ:{ contact:"Əlaqə", blurb:"Lüks landşaft memarlığı ilə təbiət və dizayn arasında harmoniya yaradırıq.", rights:"Bütün hüquqlar qorunur." }
   };
   const year = new Date().getFullYear();
@@ -16,7 +16,7 @@ export function Footer(){
       <div className="container">
         <div className="ftr__grid">
           <div>
-            <h3 className="ftr__brand"> <img className="hdr__brand-logo"src="../../../public/img/Parkland_logo.png" alt=""/></h3>
+            <h3 className="ftr__brand"> <img className="hdr__brand-logo"src="/public/img/Parkland_logo.png" alt=""/></h3>
             <p className="ftr__text">{copy[lang].blurb}</p>
           </div>
           <div>

@@ -389,6 +389,7 @@ function ProjectCard({ project, inView, priority = false, lang }) {
       transition={{ duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
       className="pCard"
     >
+      {/* Обёртка картинки */}
       <div className="pCard__imageWrap" tabIndex={0} onKeyDown={onKey}>
         {imgs.map((src, i) => (
           <div
@@ -403,24 +404,28 @@ function ProjectCard({ project, inView, priority = false, lang }) {
             />
           </div>
         ))}
+
         <div className="pCard__overlay" />
+
+        {/* КРУГЛЫЕ ТОЧКИ СНИЗУ НА ФОТО */}
+        <div className="pCard__bars">
+          {imgs.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              className={`pCard__bar ${i === idx ? "is-active" : ""}`}
+              onClick={() => setIdx(i)}
+              aria-label={`Show slide ${i + 1}`}
+            />
+          ))}
+        </div>
       </div>
 
+      {/* Текст под фото */}
       <div className="pCard__text">
-        <p className="pCard__cat">{client || ""}</p>
         <h3 className="pCard__title">{title || ""}</h3>
-      </div>
-
-      <div className="pCard__bars">
-        {imgs.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            className={`pCard__bar ${i === idx ? "is-active" : ""}`}
-            onClick={() => setIdx(i)}
-          />
-        ))}
       </div>
     </motion.div>
   );
 }
+

@@ -20,7 +20,7 @@ function ImageWithFallback({ src, alt, className, onLoad }) {
     <img
       src={
         err
-          ? "https://images.unsplash.com/photo-1594737625785-caf0f13b1c52?q=80&w=1200&auto=format&fit=crop"
+          ? "https://u-stena.ru/upload/iblock/82e/82ed66888df6b09643ed5d6699bdce71.webp"
           : src
       }
       alt={alt}
@@ -44,7 +44,7 @@ export function Hero() {
       cta: "See Our Projects",
     },
     AZ: {
-      title: "Təbiət və dizayn arasında harmoniya yaradırıq",
+      title: "Landşaftda incə zövqün dəsti-xətti",
       sub: "ParkLand açıq məkanları zərifliklə təbiətin qovuşduğu lüks sığınacaqlara çevirir.",
       cta: "Layihələrimiz",
     },

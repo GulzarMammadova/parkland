@@ -7,8 +7,6 @@ import { AnimatePresence } from "motion/react";
 import { PageFade } from "./components/PageFade";
 import AllProjects from "./pages/AllProjects";
 import GalleryAdmin from "./components/GalleryAdmin";
-
-// 🔹 БЕЗ lazy — обычные импорты
 import { Hero } from "./components/Hero/Hero";
 import { About } from "./components/About/About";
 import { Services } from "./components/Services/Services";
@@ -57,7 +55,6 @@ export default function App() {
   return (
     <>
       <Header />
-      {/* всё грузится вместе, без Suspense */}
       <ScrollToTop />
       <AppRoutes />
       <Footer />

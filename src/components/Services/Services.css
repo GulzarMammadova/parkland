@@ -1,49 +1,96 @@
-.services{
-   background: var(--beige); }
-.services__header{ 
+.services {
+  padding: 60px 0;
+}
+
+/* Заголовок */
+.services__header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.services__title {
+  font-size: clamp(26px, 4vw, 32px);
+}
+
+/* Сетка карточек */
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* Карточка услуги */
+.serviceCard {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align:center; 
-  margin-bottom:64px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #000;
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
-.services__title{ 
-  font-size: var(--h2); 
-  margin:0; 
-border-bottom: 2px solid var(--forest); 
-width: fit-content;
-border-image: linear-gradient(90deg, #7ED957, #0E9F49) 1
+/* Картинка */
+.serviceCard__img {
+  width: 100%;
+  height: 100%;
+  max-height: 230px;          /* можно подстроить */
+  object-fit: cover;
+  transform: scale(1.03);
+  transition: transform 0.6s ease-out;
 }
 
-.services__grid{
-  display:grid; 
-  gap:16px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+.serviceCard:hover .serviceCard__img {
+  transform: scale(1.12);
 }
-.serviceCard{
-  position:relative; 
-  border-radius:var(--radius);
-   overflow:hidden; 
-   /*aspect-ratio:4/3;*/
-   aspect-ratio: 3/2;
-   cursor:pointer;
-  transition: transform .4s ease;
+
+/* Заголовок услуги */
+.serviceCard__title {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+
+  width: 85%;                 /* ширина текста */
+  max-width: 260px;           /* ограничение чтобы было красиво */
+  padding: 0 8px;
+
+  color: #fff;
+  font-weight: 600;
+  font-size: clamp(14px, 2.8vw, 18px);
+  line-height: 1.25;
+  text-align: center;         /* можно поставить left если хочешь */
+  white-space: normal;        /* ПЕРЕНОС строк */
+  word-wrap: break-word;      /* разрывает длинные слова */
+  overflow-wrap: break-word;
+
+  text-shadow: 0 2px 4px rgba(0,0,0,0.7);
 }
-.serviceCard__img{ 
-  width:100%;
-   height:100%; 
-   object-fit:cover; transition: transform .8s ease; display:block; }
-.serviceCard__overlay{
-   position:absolute; 
-   inset:0; background: linear-gradient(to top, #3e4c3acc, #3e4c3a66, transparent); }
-.serviceCard__title{
-   position:absolute; 
-   left:0; right:0;
-   bottom:0; 
-   padding:24px; 
-   color:var(--ivory); 
-   font-size:20px;
-   font-family:'Playfair Display',serif;
-   margin:0; }
+
+
+/* ---------- Адаптация ---------- */
+
+/* Планшет: 2 карточки в ряд */
+@media (max-width: 900px) {
+  .services__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .serviceCard__img {
+    max-height: 210px;
+  }
+}
+
+/* Телефон: 1 карточка в ряд */
+@media (max-width: 600px) {
+  .services__grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin: 0 auto;
+    gap: 16px;
+  }
+
+  .serviceCard__img {
+    max-height: 200px;
+  }
+}
