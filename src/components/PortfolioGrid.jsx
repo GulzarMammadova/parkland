@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { listFiles, getPublicUrl } from "../lib/storage";
+import { listFilesDeep, getPublicUrl } from "../lib/storage";
 import { img } from "../utils/img";
 import { useLang } from "../context/LanguageContext";
 import "./PortfolioGrid.css";
 
-export default function PortfolioGrid({ folder = "", title }) {
+export default function PortfolioGrid({ folder = "portfolio", title }) {
   const { lang } = useLang();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,27 +15,22 @@ export default function PortfolioGrid({ folder = "", title }) {
     let mounted = true;
     (async () => {
       try {
-        setErr("");
-        setLoading(true);
+        setErr(""); setLoading(true);
 
-        const rows = await listFiles(folder); // folder === "" => корень
-        // временный лог для проверки
-        console.log("Supabase listFiles rows:", rows);
-
-        // берём только файлы с нужными расширениями
+        // читаем projects/portfolio/<project-slug>/*
+        const rows = await listFilesDeep(folder, 2);
+        // берем только изображения
         const images = rows.filter(r => /\.(jpe?g|png|webp|avif)$/i.test(r.name));
-        const withUrls = images.map((r) => {
-          const path = folder ? `${folder}/${r.name}` : r.name; // корректный путь
+
+        // Собираем карточки: путь, url, Название проекта (из имени папки), Клиент (из имени файла через "--")
+        const data = images.map(r => {
+          const path = r.__path;                 // полный путь "portfolio/<project>/<file>"
           const url = getPublicUrl(path);
-          return {
-            name: r.name,
-            url,
-            category: formatCategory(r.name, lang),
-            title: formatTitle(r.name, lang),
-          };
+          const { project, client } = parseFromPath(path);
+          return { path, url, project, client, name: r.name };
         });
 
-        if (mounted) setItems(withUrls);
+        if (mounted) setItems(data);
       } catch (e) {
         if (mounted) setErr(e?.message || "Failed to load images");
       } finally {
@@ -43,24 +38,16 @@ export default function PortfolioGrid({ folder = "", title }) {
       }
     })();
     return () => { mounted = false; };
-  }, [folder, lang]);
+  }, [folder]);
 
-  const thumbs = useMemo(() => {
-    return items.map(it => ({
-      ...it,
-      thumb: img(it.url, { width: 600, quality: 75 }),
-    }));
-  }, [items]);
+  const thumbs = useMemo(
+    () => items.map(it => ({ ...it, thumb: img(it.url, { width: 800, quality: 78 }) })),
+    [items]
+  );
 
   const texts = {
-    EN: {
-      subtitle: "Landscape projects — harmony between nature and design",
-      empty: "No images yet in the bucket 'projects' root.",
-    },
-    AZ: {
-      subtitle: "Landşaft layihələri — təbiət və dizaynın harmoniyası",
-      empty: "Hələ şəkil yoxdur: 'projects' səbətinin kökündə fayl yoxdur.",
-    },
+    EN: {  empty: "No images yet." },
+    AZ: {  empty: "Hələ şəkil yoxdur." },
   };
   const t = texts[lang] || texts.EN;
 
@@ -72,8 +59,10 @@ export default function PortfolioGrid({ folder = "", title }) {
       </div>
 
       {err && (
-        <div style={{maxWidth:1100,margin:"0 auto 12px",padding:"10px 12px",
-          border:"1px solid #ffeeba",background:"#fff3cd",borderRadius:12,color:"#8a6d3b"}}>
+        <div style={{
+          maxWidth: 1100, margin: "0 auto 12px", padding: "10px 12px",
+          border: "1px solid #ffeeba", background: "#fff3cd", borderRadius: 12, color: "#8a6d3b"
+        }}>
           ⚠️ {err}
         </div>
       )}
@@ -85,18 +74,22 @@ export default function PortfolioGrid({ folder = "", title }) {
       ) : items.length ? (
         <div className="pl-grid">
           {thumbs.map((it) => (
-            <figure className="pl-card" key={it.name} onClick={() => setActive(it.url)}>
-              <img src={it.thumb} alt={it.title} className="pl-img" loading="lazy" />
+            <figure className="pl-card" key={it.path} onClick={() => setActive(it.url)}>
+              <img src={it.thumb} alt={it.project} className="pl-img" loading="lazy" />
               <figcaption className="pl-caption">
-                <div className="pl-cat">{it.category}</div>
-                <div className="pl-name">{it.title}</div>
+                {/* клиент (верхняя строка). если нет — просто не показывается */}
+                {it.client && <div className="pl-client">{it.client}</div>}
+                {/* название проекта (нижняя строка) */}
+                <div className="pl-name">{it.project}</div>
               </figcaption>
             </figure>
           ))}
         </div>
       ) : (
-        <div style={{textAlign:"center",marginTop:40,background:"#fff",color:"#444",
-          borderRadius:12,padding:"20px 24px",display:"inline-block",border:"1px solid #ddd"}}>
+        <div style={{
+          textAlign: "center", marginTop: 40, background: "#fff", color: "#444",
+          borderRadius: 12, padding: "20px 24px", display: "inline-block", border: "1px solid #ddd"
+        }}>
           {t.empty}
         </div>
       )}
@@ -115,27 +108,28 @@ export default function PortfolioGrid({ folder = "", title }) {
   );
 }
 
-/* форматирование подписей */
-function formatTitle(name, lang) {
-  const clean = name.replace(/\.[^/.]+$/, "");
-  const parts = clean.split("_");
-  const raw = parts[1] ? parts[1].replace(/-/g, " ") : parts[0];
-  const titles = { EN: capitalize(raw), AZ: azTranslate(raw) };
-  return titles[lang] || titles.EN;
+/**
+ * Ожидаем путь: "portfolio/<project-slug>/<file-name>"
+ * Проект = prettify(<project-slug>)
+ * Клиент = из <file-name> по шаблону "Title--Client[_...].jpg"
+ */
+function parseFromPath(path = "") {
+  const parts = path.split("/");
+  const projectSlug = parts.length >= 2 ? parts[1] : "";
+  const file = parts[parts.length - 1] || "";
+
+  const project = prettify(projectSlug);
+
+  const base = file.replace(/\.[^/.]+$/, "");
+  if (base.includes("--")) {
+    const after = base.split("--")[1];            // "Client[_opt]"
+    const client = prettify(after.split("_")[0]);  // до первого "_"
+    return { project, client };
+  }
+  return { project, client: "" };
 }
-function formatCategory(name, lang) {
-  const clean = name.replace(/\.[^/.]+$/, "");
-  const parts = clean.split("_");
-  const cat = parts[0]?.toLowerCase() || "landscape";
-  const categories = {
-    EN: { residential:"Residential", garden:"Garden", commercial:"Commercial", vertical:"Vertical Gardens", landscape:"Landscape" },
-    AZ: { residential:"Yaşayış",     garden:"Bağ",    commercial:"Kommersiya", vertical:"Şaquli bağlar",     landscape:"Landşaft" },
-  };
-  return categories[lang]?.[cat] || categories[lang]?.landscape;
-}
-function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
-function azTranslate(text){
-  const dict = { "modern garden":"Müasir bağ", "japanese style":"Yapon üslubu", "vertical wall":"Şaquli bağ", "city park":"Şəhər parkı", "zen garden":"Zen bağı" };
-  const key = (text||"").toLowerCase();
-  return dict[key] || capitalize(text||"");
+
+function prettify(s = "") {
+  const t = s.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
+  return t.split(" ").map(w => (w ? w[0].toUpperCase() + w.slice(1) : "")).join(" ");
 }
