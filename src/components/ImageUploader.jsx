@@ -23,7 +23,7 @@ export default function ImageUploader({ onUploaded, folder = 'projects', buttonT
   }
 
   return (
-    <div style={{ display:'grid', gap:12, maxWidth: 440 }}>
+    <div style={{ display: 'grid', gap: 12, maxWidth: 440 }}>
       <input type="file" accept="image/*" onChange={onPick} />
       {preview && <img src={preview} alt="" style={{ maxWidth: '100%', borderRadius: 8 }} />}
       <button disabled={!file || isLoading} onClick={onSend}>

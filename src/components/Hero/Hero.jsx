@@ -39,7 +39,7 @@ export function Hero() {
 
   const copy = {
     EN: {
-      title: "Creating Harmony Between Nature and Design",
+      title: "The Signature of Refined Landscape Aesthetics",
       sub: "ParkLand transforms outdoor spaces into luxurious sanctuaries where elegance meets the natural world.",
       cta: "See Our Projects",
     },

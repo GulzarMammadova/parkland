@@ -162,9 +162,8 @@ export function Header() {
           <div className="mnav__lang">
             <div className="langSwitch">
               <button
-                className={`langSwitch__btn ${
-                  lang === "AZ" ? "is-active" : ""
-                }`}
+                className={`langSwitch__btn ${lang === "AZ" ? "is-active" : ""
+                  }`}
                 onClick={() => {
                   setLang("AZ");
                   setOpen(false);
@@ -173,9 +172,8 @@ export function Header() {
                 AZ
               </button>
               <button
-                className={`langSwitch__btn ${
-                  lang === "EN" ? "is-active" : ""
-                }`}
+                className={`langSwitch__btn ${lang === "EN" ? "is-active" : ""
+                  }`}
                 onClick={() => {
                   setLang("EN");
                   setOpen(false);

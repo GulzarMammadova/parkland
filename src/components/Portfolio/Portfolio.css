@@ -1,219 +1,275 @@
 /* ==========
    БАЗА
 ========== */
-.portfolio{
+.portfolio {
   background: var(--beige);
 }
 
-.portfolio__container{
+.portfolio__container {
   position: relative;
 }
 
-/* плавный скролл по странице в целом */
-html:focus-within{ scroll-behavior:smooth; }
+html:focus-within {
+  scroll-behavior: smooth;
+}
 
 /* ==========
    ХЕДЕР
 ========== */
-.portfolio__header{
-  display:flex; 
-  flex-direction:column;
-  align-items:center; 
-  justify-content:center;
-  text-align:center; 
-  margin-bottom:13px;
+.portfolio__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 13px;
 }
 
-.portfolio__title{
+.portfolio__title {
   font-size: var(--h2);
   margin: 0 0 12px 0;
   border-bottom: 2px solid var(--forest);
-  border-image: linear-gradient(90deg,#7ED957,#0E9F49) 1;
-  width: fit-content; text-align:center;
+  border-image: linear-gradient(90deg, #7ed957, #0e9f49) 1;
+  width: fit-content;
 }
 
-.portfolio__sub{
+.portfolio__sub {
   color: var(--olive);
-  max-width: 720px; 
+  max-width: 720px;
   margin: 0 auto;
-  line-height: 1.6; 
-  text-align:center;
+  line-height: 1.6;
+  text-align: center;
 }
 
 /* ==========
    КНОПКИ (VIEW MORE / LOAD MORE)
 ========== */
-.see-all-container{
-  display:flex; justify-content:center; margin-top:14px;
+.see-all-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
 }
-.see-all-btn{
-  display:inline-block;
-  background:var(--gold); color:var(--ivory);
-  padding:9px 32px; border-radius:8px;
-  font-weight:600; text-decoration:none;
-  transition: transform .2s ease, background .25s ease, color .25s ease;
-  border:none; cursor:pointer;
+
+.see-all-btn {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--ivory);
+  padding: 9px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.25s ease,
+    color 0.25s ease;
 }
-.see-all-btn:hover{ background:var(--ivory); color:var(--forest); transform: translateY(-1px); }
-.see-all-btn:active{ transform: translateY(0); }
+
+.see-all-btn:hover {
+  background: var(--ivory);
+  color: var(--forest);
+  transform: translateY(-1px);
+}
+
+.see-all-btn:active {
+  transform: translateY(0);
+}
 
 /* ==========
-   СТРЕЛКИ ВИТРИНЫ
+   СТРЕЛКИ
 ========== */
-.portfolio__arrow{
-  position:absolute; top:56%;
+.portfolio__arrow {
+  position: absolute;
+  top: 56%;
   transform: translateY(-50%);
-  z-index:5; width:56px; height:56px;
-  border-radius:50%; border:none; cursor:pointer;
-  background:#3e4c3a40; color:var(--gold);
-  display:flex; align-items:center; justify-content:center;
+  z-index: 5;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: #3e4c3a40;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   backdrop-filter: blur(4px);
-  transition: background .25s ease, color .25s ease, transform .15s ease, opacity .25s ease;
-  will-change: transform, opacity;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.15s ease,
+    opacity 0.25s ease;
   outline: none;
 }
-.portfolio__arrow:hover{
-  background: var(--gold); color: var(--forest);
+
+.portfolio__arrow:hover {
+  background: var(--gold);
+  color: var(--forest);
   transform: translateY(-50%) scale(1.05);
 }
-.portfolio__arrow:active{ transform: translateY(-50%) scale(1.01); }
-.portfolio__arrow:focus-visible{ box-shadow: 0 0 0 2px var(--gold); }
-.portfolio__arrow--left{ left:16px; }
-.portfolio__arrow--right{ right:16px; }
 
-/* на узких — меньше; на совсем узких скрываем (как было) */
-@media (max-width: 768px){
-  .portfolio__arrow{ width:44px; height:44px; }
+.portfolio__arrow--left {
+  left: 16px;
 }
-@media (max-width: 480px){
-  .portfolio__arrow{ display:none; }
+.portfolio__arrow--right {
+  right: 16px;
+}
+
+@media (max-width: 768px) {
+  .portfolio__arrow {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio__arrow {
+    display: none;
+  }
 }
 
 /* ==========
    СЕТКА
 ========== */
-.portfolio__grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px,1fr));
-  gap:24px;
+.portfolio__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
   align-items: stretch;
 }
 
-/* нижняя часть после раскрытия */
-.portfolio__grid--expanded{ margin-top:20px; }
+.portfolio__grid--expanded {
+  margin-top: 20px;
+}
 
 /* ==========
-   КАРТОЧКА
+   КАРТОЧКА (ЧИСТАЯ НОВАЯ ВЕРСИЯ)
 ========== */
-.pCard{
-  position:relative;
-  overflow:hidden;
-  border-radius:16px;
+.pCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
   box-shadow: 0 10px 24px #0000001a;
-  /* без изменений layout при смене кадра */
   contain: paint;
 }
 
-/* фиксируем высоту карточки — никаких «скачков» */
+/* Обёртка картинки: фиксируем пропорции + градиент */
 .pCard__imageWrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;               /* ⬅ фиксируем пропорции */
+  aspect-ratio: 4 / 3;
   border-radius: 24px;
   overflow: hidden;
   background: #d6ccb4;
 }
 
-/* слой с картинкой — только кросс-фейд + мягкий зум; без translateY */
-.pCard__imageStage{
-  position:absolute;
-   inset:0;
-  opacity:0;
-  transition: opacity .6s ease, transform .6s ease;
+/* Градиент снизу (вариант 2) */
+.pCard__imageWrap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.pCard:hover .pCard__imageWrap::after {
+  opacity: 0.8;
+}
+
+/* Слои слайдера */
+.pCard__imageStage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.02);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
   will-change: opacity, transform;
-  transform: scale(1.02); /* лёгкий зум для плавности */
   pointer-events: none;
 }
-.pCard__imageStage.is-active{
-  opacity:1;
-  transform: scale(1);   /* плавно «приезжает» */
+
+.pCard__imageStage.is-active {
+  opacity: 1;
+  transform: scale(1);
   pointer-events: auto;
 }
 
-.pCard__image{
-  width:100%; 
-  height:100%;
-  object-fit:cover; 
-  display:block;
-  /* убираем резкие ховеры, чтобы не дрожало */
-  transition: transform .8s ease;
+/* Картинка */
+.pCard__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s ease;
 }
-.pCard:hover .pCard__image{ transform: scale(1.03); }
 
-/* затемнение снизу 
-.pCard__overlay{
-  position:absolute; inset:0;
-  background: linear-gradient(to top, #3e4c3ae6, #3e4c3a66, transparent);
-}*/
-
-/* текст */
-.pCard__text{
-  position:absolute; 
-  left:0;
-  right:0;
-  bottom:0;
-  padding:24px; 
-  color:#F2E8D5;
-   z-index:2;
-  
-  /*   background: linear-gradient(to top,
-  #bda77673,
-  #bda77600
-);
-color: #FAF8F3;
-backdrop-filter: blur(4px);*/
+.pCard:hover .pCard__image {
+  transform: scale(1.03);
 }
-.pCard__cat{ color:var(--gold); margin:0 0 4px; }
-.pCard__title{ 
-  font-family:'Playfair Display',serif; 
-  font-size:24px;
-   margin:0;
-  color:#F2E8D5;
-text-shadow: 0 2px 6px #00000073; }
+
+/* Текстовая часть */
+.pCard__text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24px;
+  z-index: 2;
+}
+
+/* Категория */
+.pCard__cat {
+  color: var(--gold);
+  margin: 0 0 4px;
+}
+
+/* Название проекта */
+.pCard__title {
+  font-size: clamp(16px, 3.2vw, 22px);
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.25;
+  padding: 0 12px;
+  margin: 0 0 26px;
+
+  text-shadow:
+    0 0 4px rgba(0, 0, 0, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.55);
+}
 
 /* ==========
-   КНОПКИ-ПОЛОСКИ (слева сверху)
+   ТОЧКИ-СЛАЙДЕР
 ========== */
 .pCard__bars {
   position: absolute;
   left: 50%;
-  bottom: 14px;              /* можно подправить под твой макет */
+  bottom: 14px;
   transform: translateX(-50%);
   display: flex;
   gap: 8px;
-  justify-content: center;
-  align-items: center;
   z-index: 3;
 }
-/* Одна точка */
+
 .pCard__bar {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 1px solid #bda776;  /* золото ParkLand */
+  border: 1px solid #bda776;
   background: rgba(255, 255, 255, 0.85);
-  padding: 0;
-  cursor: pointer;
-  outline: none;
   opacity: 0.7;
+  cursor: pointer;
   transition:
     transform 0.2s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    opacity 0.2s ease;
+    opacity 0.2s ease,
+    background 0.2s,
+    border-color 0.2s;
 }
 
-/* Активная точка */
 .pCard__bar.is-active {
   background: #bda776;
   border-color: #bda776;
@@ -221,97 +277,104 @@ text-shadow: 0 2px 6px #00000073; }
   transform: scale(1.25);
 }
 
-/* Ховер (только для десктопа, по желанию) */
 .pCard__bar:hover {
   opacity: 1;
   transform: scale(1.15);
 }
 
 /* ==========
-   ТОЧКИ/ДОП. НАВИГАЦИЯ (если используешь)
+   ДОПОЛНИТЕЛЬНЫЕ ТОЧКИ (если используются)
 ========== */
-.portfolio__dots{
-  display:flex; justify-content:center; gap:8px; margin-top:32px;
+.portfolio__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
 }
-.portfolio__dot{
-  width:8px; height:8px; border-radius:999px;
-  background:#6c6a5a4d; border:none; cursor:pointer;
-  transition:.3s;
+
+.portfolio__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #6c6a5a4d;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
 }
-.portfolio__dot.is-active{ width:32px; background: var(--gold); }
+
+.portfolio__dot.is-active {
+  width: 32px;
+  background: var(--gold);
+}
 
 /* ==========
    SKELETON
 ========== */
-.skeleton{
-  background: linear-gradient(90deg,#eae7de 25%,#f3f1eb 37%,#eae7de 63%);
+.skeleton {
+  background: linear-gradient(90deg, #eae7de 25%, #f3f1eb 37%, #eae7de 63%);
   background-size: 400% 100%;
   animation: shimmer 1.2s ease-in-out infinite;
-  border-radius:16px; aspect-ratio:4/3;
+  border-radius: 16px;
+  aspect-ratio: 4 / 3;
 }
-@keyframes shimmer{
-  0%{ background-position:100% 0; }
-  100%{ background-position:0 0; }
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
 
 /* ==========
-   МЯГКАЯ ПОЯВЛЕНИЕ НИЖНИХ КАРТОЧЕК
+   ПОЯВЛЕНИЕ НИЖНИХ КАРТОЧЕК
 ========== */
-@keyframes plFadeUp{
-  from { opacity:0; transform: translateY(8px) scale(0.995); }
-  to   { opacity:1; transform: translateY(0)   scale(1); }
+@keyframes plFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
-.pl-appear{ animation: plFadeUp 380ms cubic-bezier(.22,.61,.36,1) forwards; }
+
+.pl-appear {
+  animation: plFadeUp 380ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
 
 /* ==========
    REDUCED MOTION
 ========== */
-@media (prefers-reduced-motion: reduce){
+@media (prefers-reduced-motion: reduce) {
   .pCard__imageStage,
   .pCard__image,
   .portfolio__arrow,
-  .pl-appear{
+  .pl-appear {
     transition: none !important;
     animation: none !important;
   }
 }
-/* фиксируем высоту карточки */
-.pCard__imageWrap{
-  position:relative; width:100%;
-  aspect-ratio: 4 / 3;   /* ← высота стабильна */
-  overflow:hidden;
-}
 
-/* только opacity + лёгкий scale, НИКАКОГО translateY */
-.pCard__imageStage{
-  position:absolute; inset:0;
-  opacity:0;
-  transition: opacity .6s ease, transform .6s ease;
-  will-change: opacity, transform;
-  transform: scale(1.02);
-}
-.pCard__imageStage.is-active{
-  opacity:1;
-  transform: scale(1);
-}
-/* ===== Мобильная адаптация Featured Projects ===== */
+/* ==========
+   Мобильная адаптация
+========== */
 @media (max-width: 768px) {
   .portfolio__container {
     padding-inline: 16px;
   }
 
   .portfolio__grid {
-    max-width: 100%;
     grid-template-columns: 1fr;
   }
 
   .pCard {
-    max-width: 100%;
     width: 100%;
   }
 }
 
-/* очень узкие телефоны */
 @media (max-width: 480px) {
   .portfolio__title {
     font-size: 22px;

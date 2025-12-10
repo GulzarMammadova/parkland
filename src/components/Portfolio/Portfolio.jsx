@@ -67,6 +67,8 @@ export function Portfolio() {
   const expandTopRef = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
   const { lang } = useLang();
+  const trackRef = useRef(null);
+  const [index, setIndex] = useState(0);
 
   const [dict, setDict] = useState({ projects: {}, clients: {} });
   const [current, setCurrent] = useState(0);
@@ -74,6 +76,29 @@ export function Portfolio() {
   const [visibleCount, setVisibleCount] = useState(STEP);
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
+
+  // Автопрокрутка + кнопки
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const total = track.children.length;
+
+    const move = (step = 1) => {
+      setIndex((prev) => (prev + step + total) % total);
+    };
+
+    const interval = setInterval(() => move(1), 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (track) {
+      track.style.transform = `translateX(-${index * 33.333}%)`;
+    }
+  }, [index]);
 
   const texts = {
     EN: {
@@ -159,6 +184,7 @@ export function Portfolio() {
             const pRec = (titles.projects || {})[slug] || {};
             const titleEn = pRec.title?.en || prettify(slug);
             const titleAz = pRec.title?.az || titleEn;
+            const createdAt = pRec.createdAt || null;
 
             const fileWithClient = files.find((f) => f.name.includes("--"));
             const clientEn =
@@ -176,7 +202,7 @@ export function Portfolio() {
             );
             if (!images.length) return null;
 
-            return { slug, titleEn, titleAz, clientEn, clientAz, images };
+            return { slug, titleEn, titleAz, clientEn, clientAz, images, createdAt };
           })
         );
 
@@ -196,6 +222,7 @@ export function Portfolio() {
           const pRec = (titles.projects || {})[rawSlug] || {};
           const titleEn = pRec.title?.en || prettify(left);
           const titleAz = pRec.title?.az || titleEn;
+          const createdAt = pRec.createdAt || null;
 
           const clientEn = clientFromFileName(e.name) || pRec.client?.en || "";
           const clientAz =
@@ -210,10 +237,17 @@ export function Portfolio() {
             clientEn,
             clientAz,
             images: [url],
+            createdAt,
           };
         });
 
         const result = [...folderProjects, ...singleFileProjects];
+        // сортируем проекты: новые → старые по createdAt из titles.json
+        result.sort((a, b) => {
+          const da = a.createdAt ? new Date(a.createdAt) : 0;
+          const db = b.createdAt ? new Date(b.createdAt) : 0;
+          return db - da; // более новая дата вперёд
+        });
         if (mounted) setProjects(result);
       } catch (e) {
         console.error("Supabase load error:", e);
@@ -355,6 +389,7 @@ export function Portfolio() {
           </>
         )}
       </div>
+
     </section>
   );
 }
@@ -365,20 +400,27 @@ export function Portfolio() {
 function ProjectCard({ project, inView, priority = false, lang }) {
   if (!project) return null;
 
-  const title = lang === "AZ" ? project.titleAz || project.titleEn : project.titleEn;
-  const client = lang === "AZ" ? project.clientAz || project.clientEn : project.clientEn;
+  const title =
+    lang === "AZ" ? project.titleAz || project.titleEn : project.titleEn;
+  const client =
+    lang === "AZ" ? project.clientAz || project.clientEn : project.clientEn;
 
   const imgs =
     Array.isArray(project.images) && project.images.length > 0
       ? project.images
       : [
-          "https://images.unsplash.com/photo-1612143241883-35889d1d65ab?auto=format&w=1200&q=80",
-        ];
+        "https://images.unsplash.com/photo-1612143241883-35889d1d65ab?auto=format&w=1200&q=80",
+      ];
 
   const [idx, setIdx] = useState(0);
+
   const onKey = (e) => {
-    if (e.key === "ArrowLeft") setIdx((p) => (p - 1 + imgs.length) % imgs.length);
-    if (e.key === "ArrowRight") setIdx((p) => (p + 1) % imgs.length);
+    if (e.key === "ArrowLeft") {
+      setIdx((p) => (p - 1 + imgs.length) % imgs.length);
+    }
+    if (e.key === "ArrowRight") {
+      setIdx((p) => (p + 1) % imgs.length);
+    }
   };
 
   return (
@@ -405,9 +447,7 @@ function ProjectCard({ project, inView, priority = false, lang }) {
           </div>
         ))}
 
-        <div className="pCard__overlay" />
-
-        {/* КРУГЛЫЕ ТОЧКИ СНИЗУ НА ФОТО */}
+        {/* точки навигации */}
         <div className="pCard__bars">
           {imgs.map((_, i) => (
             <button
@@ -428,4 +468,5 @@ function ProjectCard({ project, inView, priority = false, lang }) {
     </motion.div>
   );
 }
+
 

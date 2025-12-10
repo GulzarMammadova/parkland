@@ -3,7 +3,7 @@ import "./About.css";
 import { motion, useInView } from "motion/react";
 import { Trees, Award, Users } from "lucide-react";
 import { useLang } from "../../context/LanguageContext";
-import aboutImg from "../../../public/img/about.jpg";
+import aboutImg from "/img/about.jpg";
 
 
 function ImageWithFallback({ src, alt, className, ...rest }) {
@@ -30,46 +30,46 @@ export function About() {
 
   const copy = {
     EN: {
-      h2: "Crafting Timeless Outdoor Sanctuaries",
-      p1: "For over two decades, ParkLand has been at the forefront of luxury landscape design, transforming residential and commercial properties into breathtaking natural retreats.",
-      p2: "Every project is a collaboration, blending our expertise with your vision to create landscapes that inspire, rejuvenate, and endure.",
+      //h2: "Crafting Timeless Outdoor Sanctuaries",
+      p1: "“ParkLand” LLC was founded in 2007 by a team of skilled and talented professionals in landscape and design. From the very beginning, our mission has remained unchanged: to bring beauty to people’s lives and to serve nature.",
+      p2: "In every new project, we unite the delicate lines of nature with the contemporary rhythm of design.",
       features: [
         {
-          icon: Trees,
-          title: "Eco-Conscious Design",
-          desc: "Sustainable practices that honor and enhance the natural environment",
+          icon: Award,
+          title: "Professional Mastery",
+          desc: "A team formed by the industry’s most qualified specialists.",
         },
         {
-          icon: Award,
-          title: "Award-Winning Excellence",
-          desc: "Recognized for innovative landscape architecture and design mastery",
+          icon: Trees,
+          title: "Harmony of Nature & Design",
+          desc: "We blend nature with modern architecture.",
         },
         {
           icon: Users,
-          title: "Personalized Approach",
-          desc: "Tailored solutions that reflect your unique vision and lifestyle",
+          title: "Flawless & Timely Delivery",
+          desc: "Delivered with precision and the highest standards.",
         },
       ],
     },
     AZ: {
-      h2: "Zamansız açıq məkan sığınacaqları yaradırıq",
-      p1: "İyirmi ildən artıqdır ki, ParkLənd lüks landşaft dizaynında ön sıralardadır, yaşayış və kommersiya məkanlarını heyranedici təbiət guşələrinə çevirir.",
-      p2: "Hər layihə əməkdaşlıqdır: ekspertizamız sizin baxışınızla vəhdət təşkil edir ki, ruhlandıran və uzunömürlü məkanlar yaransın.",
+     // h2: "Zamansız açıq məkan sığınacaqları yaradırıq",
+      p1: "“Parkland” MMC – landşaft vә dizayn şirkәti 2007–ci ildә, bir neçә peşәkar vә istedadlı insan tәrәfindәn yaradılıb. İlk gündәn mәqsәdimiz insanlara gözәllik bәxş edib, tәbiәtә xidmәt etmәkdir.",
+      p2: "Biz, hәr yeni layihәdә tәbiәtin zәrif xәttini vә dizaynın müasir ritmini bir araya gәtiririk.",
       features: [
         {
-          icon: Trees,
-          title: "Ekoloji yanaşma",
-          desc: "Təbiəti qoruyan və zənginləşdirən dayanıqlı praktikalar",
+          icon: Award,
+          title: "Peşəkar Ustalıq",
+          desc: "Komandamız yalnız ən güclü mütəxəssislərindən formalaşıb.",
         },
         {
-          icon: Award,
-          title: "Mükafatlı ustalıq",
-          desc: "Yenilikçi landşaft memarlığı və dizayn ustalığı ilə tanınırıq",
+          icon: Trees,
+          title: "Təbiət və Dizayn Ahenqi",
+          desc: "Hər layihədə təbiətin zərif xəttini müasir memarlıqla birləşdiririk.",
         },
         {
           icon: Users,
-          title: "Fərdiləşdirilmiş yanaşma",
-          desc: "Sizin baxış və həyat tərzinizi əks etdirən həllər",
+          title: "Qüsursuz və Vaxtında Təhvil",
+          desc: "Layihələri dəqiq və yüksək standartlarla həyata keçiririk.",
         },
       ],
     },

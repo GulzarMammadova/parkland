@@ -46,8 +46,8 @@ export default function PortfolioGrid({ folder = "portfolio", title }) {
   );
 
   const texts = {
-    EN: { subtitle: "Landscape projects — harmony between nature and design", empty: "No images yet." },
-    AZ: { subtitle: "Landşaft layihələri — təbiət və dizaynın harmoniyası",  empty: "Hələ şəkil yoxdur." },
+    EN: {  empty: "No images yet." },
+    AZ: {  empty: "Hələ şəkil yoxdur." },
   };
   const t = texts[lang] || texts.EN;
 
@@ -59,8 +59,10 @@ export default function PortfolioGrid({ folder = "portfolio", title }) {
       </div>
 
       {err && (
-        <div style={{maxWidth:1100,margin:"0 auto 12px",padding:"10px 12px",
-          border:"1px solid #ffeeba",background:"#fff3cd",borderRadius:12,color:"#8a6d3b"}}>
+        <div style={{
+          maxWidth: 1100, margin: "0 auto 12px", padding: "10px 12px",
+          border: "1px solid #ffeeba", background: "#fff3cd", borderRadius: 12, color: "#8a6d3b"
+        }}>
           ⚠️ {err}
         </div>
       )}
@@ -75,17 +77,19 @@ export default function PortfolioGrid({ folder = "portfolio", title }) {
             <figure className="pl-card" key={it.path} onClick={() => setActive(it.url)}>
               <img src={it.thumb} alt={it.project} className="pl-img" loading="lazy" />
               <figcaption className="pl-caption">
-                {/* 👇 клиент (верхняя строка). если нет — просто не показывается */}
+                {/* клиент (верхняя строка). если нет — просто не показывается */}
                 {it.client && <div className="pl-client">{it.client}</div>}
-                {/* 👇 название проекта (нижняя строка) */}
+                {/* название проекта (нижняя строка) */}
                 <div className="pl-name">{it.project}</div>
               </figcaption>
             </figure>
           ))}
         </div>
       ) : (
-        <div style={{textAlign:"center",marginTop:40,background:"#fff",color:"#444",
-          borderRadius:12,padding:"20px 24px",display:"inline-block",border:"1px solid #ddd"}}>
+        <div style={{
+          textAlign: "center", marginTop: 40, background: "#fff", color: "#444",
+          borderRadius: 12, padding: "20px 24px", display: "inline-block", border: "1px solid #ddd"
+        }}>
           {t.empty}
         </div>
       )}

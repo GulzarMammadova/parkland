@@ -1,6 +1,5 @@
 
 import React from "react";
-import "./AllProjects.css";
 import { useLang } from "../context/LanguageContext.jsx";
 import PortfolioGrid from "../components/PortfolioGrid.jsx";
 

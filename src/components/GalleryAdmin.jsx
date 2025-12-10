@@ -29,14 +29,14 @@ export default function GalleryAdmin({ folder = '' }) {
   }
 
   return (
-    <div style={{ display:'grid', gap:20 }}>
-      <h2 style={{ margin:0 }}>Media / {folder || 'root'}</h2>
+    <div style={{ display: 'grid', gap: 20 }}>
+      <h2 style={{ margin: 0 }}>Media / {folder || 'root'}</h2>
       <ImageUploader onUploaded={refresh} folder={folder} />
-      <div style={{ display:'grid', gap:12 }}>
+      <div style={{ display: 'grid', gap: 12 }}>
         {items.map((it) => (
-          <div key={it.path} style={{ display:'flex', gap:12, alignItems:'center' }}>
-            <img src={it.url} alt="" style={{ height:72, width:96, objectFit:'cover', borderRadius:8 }} />
-            <div style={{ flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+          <div key={it.path} style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+            <img src={it.url} alt="" style={{ height: 72, width: 96, objectFit: 'cover', borderRadius: 8 }} />
+            <div style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {it.path}
             </div>
             <a href={it.url} target="_blank" rel="noreferrer">Open</a>
