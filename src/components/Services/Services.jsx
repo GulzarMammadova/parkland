@@ -50,7 +50,7 @@ export function Services() {
     "/img/services/Landscape Design.jpg",
     "/img/services/Hardscape.jpg",
     "/img/services/Softscape.avif",
-    "/img/services/MEP.jpg",
+    "/img/services/MEP.avif",
     "/img/services/Outside furniture and metal works.jpg",
     "/img/services/Fito works.jpg",
   ];

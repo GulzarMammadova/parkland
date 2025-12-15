@@ -37,7 +37,7 @@ export function About() {
         {
           icon: Award,
           title: "Professional Mastery",
-          desc: "A team formed by the industry’s most qualified specialists.",
+          desc: "Real expertise, technical precision, and practical solutions.",
         },
         {
           icon: Trees,
@@ -59,11 +59,11 @@ export function About() {
         {
           icon: Award,
           title: "Peşəkar Ustalıq",
-          desc: "Komandamız yalnız ən güclü mütəxəssislərindən formalaşıb.",
+          desc: "Real təcrübə, texniki dəqiqlik və praktik həllər.",
         },
         {
           icon: Trees,
-          title: "Təbiət və Dizayn Ahenqi",
+          title: "Təbiət və Dizayn Ahənqi",
           desc: "Hər layihədə təbiətin zərif xəttini müasir memarlıqla birləşdiririk.",
         },
         {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { useLang } from "../../context/LanguageContext";
 import { Link, useLocation } from "react-router-dom";
+import logoImg from "../../../public/img/Parkland_logo.png"
 
 export function Header() {
   const { lang, setLang } = useLang();
@@ -87,7 +88,7 @@ export function Header() {
         <Link to="/" className="hdr__logo" aria-label="ParkLand">
           <img
             className="hdr__logo_img"
-            src="/img/Parkland_logo.PNG"
+            src={logoImg}
             alt="ParkLand"
           />
         </Link>
