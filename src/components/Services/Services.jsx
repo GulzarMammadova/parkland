@@ -52,7 +52,7 @@ export function Services() {
     "/img/services/Softscape.avif",
     "/img/services/MEP.avif",
     "/img/services/Outside furniture and metal works.jpg",
-    "/img/services/Fito works.jpg",
+    "/img/services/Fito works.webp",
   ];
 
   return (

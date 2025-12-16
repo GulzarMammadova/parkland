@@ -24,8 +24,8 @@ export function AppRoutes() {
               <Hero />
               <About />
               <Services />
-              <Team />
               <Portfolio />
+              <Team />
             </PageFade>
           }
         />

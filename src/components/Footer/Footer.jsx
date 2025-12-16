@@ -8,7 +8,7 @@ export function Footer() {
   const { lang } = useLang();
   const copy = {
     EN: { contact: "Contact", blurb: "A balance between space and nature.", rights: "All rights reserved." },
-    AZ: { contact: "Əlaqə", blurb: "Məkan və mühüd arasında balans.", rights: "Bütün hüquqlar qorunur." }
+    AZ: { contact: "Əlaqə", blurb: "Məkan və mühit arasında balans.", rights: "Bütün hüquqlar qorunur." }
   };
   const year = new Date().getFullYear();
 

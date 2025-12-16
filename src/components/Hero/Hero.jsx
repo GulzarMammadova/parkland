@@ -2,33 +2,22 @@ import React, { useState } from "react";
 import "./Hero.css";
 import { motion } from "motion/react";
 import { useLang } from "../../context/LanguageContext";
-import { supabase } from "../../lib/supabaseClient";
 
-// однажды получаем public URL — это синхронно, без запроса к сети
-const BUCKET = "projects";
-const HERO_WEBP = supabase.storage
-  .from(BUCKET)
-  .getPublicUrl("hero/hero.webp").data.publicUrl;
-
-const HERO_JPG = supabase.storage
-  .from(BUCKET)
-  .getPublicUrl("hero/hero.jpg").data.publicUrl;
-
-function ImageWithFallback({ src, alt, className, onLoad }) {
+function ImageWithFallback({ src, fallbackSrc, alt, className, onLoad }) {
   const [err, setErr] = useState(false);
+
   return (
     <img
-      src={
-        err
-          ? "https://u-stena.ru/upload/iblock/82e/82ed66888df6b09643ed5d6699bdce71.webp"
-          : src
-      }
+      src={err ? fallbackSrc : src}
       alt={alt}
       className={className}
       onError={() => setErr(true)}
       onLoad={onLoad}
-      loading="eager"        // это наш LCP
+      loading="eager"          
+      fetchpriority="high"    
       decoding="async"
+      width="1920"
+      height="1080"
     />
   );
 }
@@ -54,16 +43,30 @@ export function Hero() {
     <section id="hero" className="hero">
       <div className="hero__bg">
         <picture>
-          {/* сначала пытаемся загрузить WebP из Supabase */}
-          <source srcSet={HERO_WEBP} type="image/webp" />
-          {/* fallback на jpg + blur-up */}
+          {/* MOBILE hero (лёгкий) */}
+          <source
+            media="(max-width: 768px)"
+            srcSet="/img/hero-mobile.webp"
+            type="image/webp"
+          />
+
+          {/* DESKTOP hero */}
+          <source
+            media="(min-width: 769px)"
+            srcSet="/img/hero.webp"
+            type="image/webp"
+          />
+
+          {/* JPG fallback */}
           <ImageWithFallback
-            src={HERO_JPG}
-            alt="Luxury garden"
+            src="/img/hero.webp"
+            fallbackSrc="/img/hero.jpg"
+            alt="Luxury landscape design by ParkLand"
             className={`hero__img ${loaded ? "is-loaded" : ""}`}
             onLoad={() => setLoaded(true)}
           />
         </picture>
+
         <div className="hero__overlay" />
       </div>
 
@@ -97,6 +100,7 @@ export function Hero() {
         </motion.div>
       </div>
 
+      {/* scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
