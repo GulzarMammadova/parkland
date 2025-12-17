@@ -1,6 +1,8 @@
 .hero {
   position: relative;
-  min-height: 75vh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,6 +10,8 @@
   padding-top: 96px;
   padding-bottom: 72px;
   background: #faf8f3;
+    padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .hero__bg {

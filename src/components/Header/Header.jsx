@@ -1,26 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { useLang } from "../../context/LanguageContext";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logoImg from "../../../public/img/Parkland_logo.png"
 
 export function Header() {
   const { lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("about");
-  const location = useLocation();
-
-  // Скролл при переходе на /#id
-  useEffect(() => {
-    if (!location.hash) return;
-    const id = decodeURIComponent(location.hash.slice(1));
-    const el = document.getElementById(id);
-    if (el) {
-      setTimeout(() => {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 0);
-    }
-  }, [location.pathname, location.hash]);
 
   // Активная секция (подсветка в меню)
   useEffect(() => {
@@ -65,19 +52,28 @@ export function Header() {
     EN: [
       { id: "about", label: "About" },
       { id: "services", label: "Services" },
+      { id: "portfolio", label: "Projects" },
       { id: "team", label: "Team" },
-      { id: "portfolio", label: "Projects" }, // ведёт к секции portfolio
     ],
     AZ: [
       { id: "about", label: "Haqqımızda" },
       { id: "services", label: "Xidmətlər" },
-      { id: "team", label: "Komanda" },
       { id: "portfolio", label: "Layihələr" },
+      { id: "team", label: "Komanda" },
     ],
   };
 
-  // Формируем ссылки — ВСЕ идут на главную с якорем
-  const linkTo = (id) => ({ pathname: "/", hash: `#${id}` });
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    el.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    setOpen(false);
+  };
 
   const onNavClick = () => setOpen(false);
 
@@ -96,14 +92,15 @@ export function Header() {
         {/* Desktop меню */}
         <nav className="hdr__nav" aria-label="Primary">
           {menu[lang].map((item) => (
-            <Link
+            <button
               key={item.id}
-              to={linkTo(item.id)}
+              type="button"
               className={`hdr__link ${active === item.id ? "is-active" : ""}`}
-              onClick={onNavClick}
+              onClick={() => scrollTo(item.id)}
             >
               {item.label}
-            </Link>
+            </button>
+
           ))}
         </nav>
 
@@ -150,14 +147,15 @@ export function Header() {
       <nav className={`mnav ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <div className="mnav__inner">
           {menu[lang].map((item) => (
-            <Link
+            <button
               key={item.id}
-              to={linkTo(item.id)}
+              type="button"
               className="mnav__link"
-              onClick={onNavClick}
+              onClick={() => scrollTo(item.id)}
             >
               {item.label}
-            </Link>
+            </button>
+
           ))}
 
           <div className="mnav__lang">

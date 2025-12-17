@@ -3,7 +3,9 @@
 ========== */
 .portfolio {
   background: var(--beige);
+
 }
+
 
 .portfolio__container {
   position: relative;
@@ -260,7 +262,7 @@ html:focus-within {
   height: 10px;
   border-radius: 50%;
   border: 1px solid #bda776;
-  background: rgba(255, 255, 255, 0.85);
+  background: #ffffffd9;
   opacity: 0.7;
   cursor: pointer;
   transition:
@@ -387,4 +389,29 @@ html:focus-within {
   .pCard__text {
     padding-inline: 14px;
   }
+}
+
+/* ========== 
+   MOBILE: точки навигации круглее
+========== */
+@media (max-width: 480px) {
+  .pCard__bars {
+    gap: 10px;
+  }
+
+  .pCard__bar {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px; /* гарантированный круг */
+    border-width: 0;      /* убираем обводку — она "ломает" круг */
+    background: #ffffffb3;
+  }
+
+  .pCard__bar.is-active {
+    background: var(--gold);
+    transform: scale(1.35);
+  }
+}
+.pCard__bar.is-active {
+  box-shadow: 0 0 0 3px #bda77659;
 }

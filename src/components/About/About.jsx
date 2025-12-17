@@ -63,7 +63,7 @@ export function About() {
         },
         {
           icon: Trees,
-          title: "Təbiət və Dizayn Ahənqi",
+          title: "Təbiət və Dizaynın Ahənqi",
           desc: "Hər layihədə təbiətin zərif xəttini müasir memarlıqla birləşdiririk.",
         },
         {

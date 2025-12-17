@@ -48,14 +48,21 @@
 }
 .hdr__link {
   position: relative;
-  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0 0 4px;
+  margin: 0;
+
   color: var(--ivory);
+  cursor: pointer;
+
   font:
     400 15px/1 "Inter",
     sans-serif;
-  padding-bottom: 4px;
+
   transition: color 0.25s ease;
 }
+
 .hdr__link:hover {
   color: var(--gold);
 }
@@ -70,6 +77,13 @@
   transition: width 0.3s ease;
 }
 .hdr__link:hover::after {
+  width: 100%;
+}
+.hdr__link:focus-visible {
+  outline: none;
+}
+
+.hdr__link:focus-visible::after {
   width: 100%;
 }
 
@@ -186,15 +200,26 @@
 }
 .mnav__link {
   display: block;
+  width: 100%;
+  text-align: left;
+
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(62, 76, 58, 0.08);
+
   padding: 12px 2px;
-  text-decoration: none;
+  margin: 0;
+
   color: var(--forest);
+  cursor: pointer;
+
   font:
     600 16px/1.2 "Inter",
     sans-serif;
-  border-bottom: 1px solid rgba(62, 76, 58, 0.08);
+
   transition: color 0.2s;
 }
+
 .mnav__link:hover {
   color: var(--gold);
 }

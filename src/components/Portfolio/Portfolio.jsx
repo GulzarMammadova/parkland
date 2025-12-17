@@ -67,8 +67,6 @@ export function Portfolio() {
   const expandTopRef = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
   const { lang } = useLang();
-  const trackRef = useRef(null);
-  const [index, setIndex] = useState(0);
 
   const [dict, setDict] = useState({ projects: {}, clients: {} });
   const [current, setCurrent] = useState(0);
@@ -77,28 +75,17 @@ export function Portfolio() {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
 
-  // Автопрокрутка + кнопки
+  // ✅ определяем мобилку (чтобы показывать 4 проекта)
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const total = track.children.length;
-
-    const move = (step = 1) => {
-      setIndex((prev) => (prev + step + total) % total);
-    };
-
-    const interval = setInterval(() => move(1), 4000);
-
-    return () => clearInterval(interval);
+    const mq = window.matchMedia("(max-width: 600px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, []);
 
-  useEffect(() => {
-    const track = trackRef.current;
-    if (track) {
-      track.style.transform = `translateX(-${index * 33.333}%)`;
-    }
-  }, [index]);
+  const featuredCount = isMobile ? 4 : 2;
 
   const texts = {
     EN: {
@@ -106,12 +93,14 @@ export function Portfolio() {
       seeAll: "VIEW MORE",
       loadMore: "SHOW MORE",
       empty: "Projects will appear here soon.",
+      sub: "",
     },
     AZ: {
       heading: "Seçilmiş Layihələr",
       seeAll: "Hamısına bax",
       loadMore: "Daha çox göstər",
       empty: "Layihələr tezliklə burada görünəcək.",
+      sub: "",
     },
   };
   const t = texts[lang] || texts.EN;
@@ -144,9 +133,7 @@ export function Portfolio() {
         if (error) throw error;
         const list = entries || [];
         const folders = list.filter((e) => !e.metadata); // папки
-        const rootFiles = list.filter(
-          (e) => e.metadata && isImage(e.name)
-        ); // только картинки в корне
+        const rootFiles = list.filter((e) => e.metadata && isImage(e.name)); // картинки в корне
 
         // 2) Обрабатываем папки
         const folderProjectsRaw = await Promise.all(
@@ -160,11 +147,7 @@ export function Portfolio() {
               });
 
             if (innerErr) {
-              console.warn(
-                "[Storage] inner list error:",
-                folderPrefix,
-                innerErr
-              );
+              console.warn("[Storage] inner list error:", folderPrefix, innerErr);
               return null;
             }
 
@@ -196,13 +179,20 @@ export function Portfolio() {
               pRec.client?.az ||
               clientEn;
 
-            // public URLs вместо signed
             const images = files.map((f) =>
               getPublicUrl(`${folderPrefix}/${f.name}`)
             );
             if (!images.length) return null;
 
-            return { slug, titleEn, titleAz, clientEn, clientAz, images, createdAt };
+            return {
+              slug,
+              titleEn,
+              titleAz,
+              clientEn,
+              clientAz,
+              images,
+              createdAt,
+            };
           })
         );
 
@@ -214,9 +204,7 @@ export function Portfolio() {
           const url = getPublicUrl(path);
 
           const base = e.name.replace(/\.[^/.]+$/, "");
-          const left = base.includes("--")
-            ? base.split("--")[0]
-            : base.split("_")[0];
+          const left = base.includes("--") ? base.split("--")[0] : base.split("_")[0];
           const rawSlug = slugify(left);
 
           const pRec = (titles.projects || {})[rawSlug] || {};
@@ -242,12 +230,14 @@ export function Portfolio() {
         });
 
         const result = [...folderProjects, ...singleFileProjects];
-        // сортируем проекты: новые → старые по createdAt из titles.json
+
+        // сортируем: новые → старые по createdAt
         result.sort((a, b) => {
           const da = a.createdAt ? new Date(a.createdAt) : 0;
           const db = b.createdAt ? new Date(b.createdAt) : 0;
-          return db - da; // более новая дата вперёд
+          return db - da;
         });
+
         if (mounted) setProjects(result);
       } catch (e) {
         console.error("Supabase load error:", e);
@@ -266,10 +256,13 @@ export function Portfolio() {
   const ALL = projects;
   const len = ALL.length;
 
-  const showIndexes = useMemo(
-    () => (len <= 1 ? [0] : [current % len, (current + 1) % len]),
-    [current, len]
-  );
+  // ✅ показываем 4 на мобилке, 2 на десктопе
+  const showIndexes = useMemo(() => {
+    if (len === 0) return [];
+    const count = Math.min(featuredCount, len);
+    return Array.from({ length: count }, (_, k) => (current + k) % len);
+  }, [current, len, featuredCount]);
+
   const prev = () => setCurrent((p) => (p - 1 + len) % len);
   const next = () => setCurrent((p) => (p + 1) % len);
 
@@ -300,7 +293,8 @@ export function Portfolio() {
           <p className="portfolio__sub">{t.sub}</p>
         </motion.div>
 
-        {!loading && len > 1 && !expanded && (
+        {/* ✅ стрелки показываем только если есть больше, чем featuredCount */}
+        {!loading && len > featuredCount && !expanded && (
           <>
             <button
               className="portfolio__arrow portfolio__arrow--left"
@@ -330,7 +324,7 @@ export function Portfolio() {
           ) : (
             showIndexes.map((i) => (
               <ProjectCard
-                key={`feat-${i}`}
+                key={`feat-${ALL[i]?.slug || i}`}
                 project={ALL[i]}
                 inView={inView}
                 priority
@@ -358,7 +352,7 @@ export function Portfolio() {
             <div className="portfolio__grid portfolio__grid--expanded">
               {visibleRest.map((p, idx) => (
                 <div
-                  key={`${p.titleEn}-${idx}`}
+                  key={`${p.slug || p.titleEn}-${idx}`}
                   className="pl-appear"
                   style={{ animationDelay: `${(idx % STEP) * 80}ms` }}
                 >
@@ -373,7 +367,9 @@ export function Portfolio() {
                   type="button"
                   className="see-all-btn"
                   onClick={() =>
-                    setVisibleCount((v) => Math.min(v + STEP, restProjects.length))
+                    setVisibleCount((v) =>
+                      Math.min(v + STEP, restProjects.length)
+                    )
                   }
                 >
                   <span>{t.loadMore}</span>
@@ -389,7 +385,6 @@ export function Portfolio() {
           </>
         )}
       </div>
-
     </section>
   );
 }
@@ -400,17 +395,14 @@ export function Portfolio() {
 function ProjectCard({ project, inView, priority = false, lang }) {
   if (!project) return null;
 
-  const title =
-    lang === "AZ" ? project.titleAz || project.titleEn : project.titleEn;
-  const client =
-    lang === "AZ" ? project.clientAz || project.clientEn : project.clientEn;
+  const title = lang === "AZ" ? project.titleAz || project.titleEn : project.titleEn;
 
   const imgs =
     Array.isArray(project.images) && project.images.length > 0
       ? project.images
       : [
-        "https://images.unsplash.com/photo-1612143241883-35889d1d65ab?auto=format&w=1200&q=80",
-      ];
+          "https://images.unsplash.com/photo-1612143241883-35889d1d65ab?auto=format&w=1200&q=80",
+        ];
 
   const [idx, setIdx] = useState(0);
 
@@ -431,7 +423,6 @@ function ProjectCard({ project, inView, priority = false, lang }) {
       transition={{ duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
       className="pCard"
     >
-      {/* Обёртка картинки */}
       <div className="pCard__imageWrap" tabIndex={0} onKeyDown={onKey}>
         {imgs.map((src, i) => (
           <div
@@ -447,7 +438,6 @@ function ProjectCard({ project, inView, priority = false, lang }) {
           </div>
         ))}
 
-        {/* точки навигации */}
         <div className="pCard__bars">
           {imgs.map((_, i) => (
             <button
@@ -461,12 +451,9 @@ function ProjectCard({ project, inView, priority = false, lang }) {
         </div>
       </div>
 
-      {/* Текст под фото */}
       <div className="pCard__text">
         <h3 className="pCard__title">{title || ""}</h3>
       </div>
     </motion.div>
   );
 }
-
-

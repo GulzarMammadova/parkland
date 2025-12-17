@@ -33,9 +33,6 @@ function prettify(s = "") {
     .join(" ");
 }
 
-/** "leyla-aliyeva--Landscape-Architect.jpg"
- *  -> { slug:"leyla-aliyeva", nameEn:"Leyla Aliyeva", roleEn:"Landscape Architect" }
- */
 function parseMemberFromFilename(fileName = "") {
   const base = fileName.replace(/\.[^.]+$/, "");
   const [left, right] = base.split("--");
@@ -213,7 +210,7 @@ export function Team() {
                             className="tCard__img"
                             src={m.photo}
                             alt={name}
-                            loading="lazy"
+                            loading="eager"
                             decoding="async"
                           />
                         ) : (

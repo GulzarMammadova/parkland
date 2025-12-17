@@ -13,8 +13,8 @@ function ImageWithFallback({ src, fallbackSrc, alt, className, onLoad }) {
       className={className}
       onError={() => setErr(true)}
       onLoad={onLoad}
-      loading="eager"          
-      fetchpriority="high"    
+      loading="eager"
+      fetchPriority="high"
       decoding="async"
       width="1920"
       height="1080"
