@@ -68,6 +68,23 @@
   align-items: center;
   justify-content: center;
 }
+
+.about__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: var(--beige);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about__iconSvg {
+  width: 22px;
+  height: 22px;
+  color: #BDA776;
+}
+
 .about__ft {
   font-size: 20px;
   margin: 0 0 6px;
@@ -112,14 +129,32 @@
   .about__imageWrap {
     max-width: 340px;
     margin: 0 auto 12px;
-
     height: auto;       
     min-height: 0;      
-    aspect-ratio: 3 / 4; /* портрет */
+    aspect-ratio: 3 / 4; 
   }
 
   .about__image {
     object-position: center 20%;
+  }
+ .about__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--beige);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+  }
+
+  .about__iconSvg {
+    width: 20px;
+    height: 20px;
+      display: block; 
+
   }
 }
 

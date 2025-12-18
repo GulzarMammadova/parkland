@@ -113,7 +113,7 @@ export function About() {
                   className="about__row"
                 >
                   <div className="about__icon">
-                    <Icon size={22} color="#BDA776" />
+                    <Icon className="about__iconSvg"/>
                   </div>
                   <div>
                     <h3 className="about__ft">{f.title}</h3>
