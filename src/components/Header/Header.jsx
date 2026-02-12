@@ -53,12 +53,14 @@ export function Header() {
       { id: "about", label: "About" },
       { id: "services", label: "Services" },
       { id: "portfolio", label: "Projects" },
+      { id: "recommendations", label: "Recommendation Letters" },
       { id: "team", label: "Team" },
     ],
     AZ: [
       { id: "about", label: "Haqqımızda" },
       { id: "services", label: "Xidmətlər" },
       { id: "portfolio", label: "Layihələr" },
+      { id: "recommendations", label: "Tövsiyə məktubları" },
       { id: "team", label: "Komanda" },
     ],
   };

@@ -10,6 +10,7 @@ import { About } from "../components/About/About";
 import { Services } from "../components/Services/Services";
 import { Team } from "../components/Team/Team";
 import { Portfolio } from "../components/Portfolio/Portfolio";
+import { ReferenceLetters } from "../components/ReferenceLetters/ReferenceLetters";
 
 export function AppRoutes() {
   const location = useLocation();
@@ -25,6 +26,7 @@ export function AppRoutes() {
               <About />
               <Services />
               <Portfolio />
+              <ReferenceLetters /> 
               <Team />
             </PageFade>
           }
