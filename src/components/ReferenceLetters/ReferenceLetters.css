@@ -77,6 +77,7 @@
   background: var(--gold1);
   border-radius: 20px;
   transition: 0.3s ease;
+  
 }
 
 .rl-card:hover {
@@ -206,4 +207,68 @@
   font-size: 22px;
   color: var(--parkland-forest);
   box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+
+/* ============================= */
+/* 1440 DESKTOP — FIT SCREEN */
+/* ============================= */
+
+@media (min-width: 1200px) {
+  .rl-section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .rl-header {
+    margin-bottom: 24px;
+  }
+
+  .rl-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 137px);
+    gap: 28px 36px;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+
+  .rl-card {
+    max-width: 260px;
+  }
+}
+
+/* ============================= */
+/* CARD HEIGHT CONTROL */
+/* ============================= */
+
+.rl-image-wrapper img {
+  aspect-ratio: 3 / 4;
+}
+
+/* ============================= */
+/* FOOTER COMPACT */
+/* ============================= */
+
+.rl-card-footer {
+  padding: 4px;
+}
+
+.rl-card-footer img {
+  max-height: 28px;
+}
+
+/* ============================= */
+/* NO SHIFTS */
+/* ============================= */
+
+.rl-card {
+  transform: none !important;
+}
+
+/* ============================= */
+/* SOFT HOVER (SAFE) */
+/* ============================= */
+
+.rl-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px #0000000f;
 }

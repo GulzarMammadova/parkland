@@ -21,11 +21,11 @@ export function Footer() {
             <p className="ftr__text">{copy[lang].blurb}</p>
           </div>
           <div>
-           {/*<h4 className="ftr__h4">{copy[lang].contact}</h4>
+           <h4 className="ftr__h4">{copy[lang].contact}</h4>
             <a href="tel:+994125981393" className="ftr__contactItem">
               <span className="ftr__iconWrap"><Phone className="ftr__icon" /></span>
               <span className="ftr__label">+994 (12) 598-13-93</span>
-            </a>*/}
+            </a>
 
             <a href="mailto:info@parkland.az" className="ftr__contactItem">
               <span className="ftr__iconWrap"><Mail className="ftr__icon" /></span>
