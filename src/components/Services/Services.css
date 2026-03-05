@@ -1,22 +1,26 @@
-.services {
-  padding: 60px 0;
-}
-
 /* Заголовок */
 .services__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .services__title {
-  font-size: clamp(26px, 4vw, 32px);
+  font-size: var(--h2);
+  margin: 0 0 12px 0;
+  border-bottom: 2px solid var(--forest);
+  border-image: linear-gradient(90deg, #7ed957, #0e9f49) 1;
+  width: fit-content;
 }
 
 /* Сетка карточек */
 .services__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
 }
 
 /* Карточка услуги */
@@ -25,16 +29,42 @@
   border-radius: 20px;
   overflow: hidden;
   background: #000;
- aspect-ratio: 4 / 2;
-}
+ /* aspect-ratio: 16 / 9;*/
+  aspect-ratio: 4/2;
+   box-shadow:
+    0 10px 30px #00000014,
+    0 4px 10px #0000000f;
 
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.serviceCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+background: linear-gradient(
+  to bottom,
+  #ffffff12 0%,
+  #00000030 40%,
+  #00000080 100%
+);
+  opacity: 0.9;
+  transition: opacity .4s ease;
+  pointer-events: none;
+}
+.serviceCard:hover {
+transform: translateY(-6px) scale(1.01);
+  box-shadow:
+    0 20px 50px #00000024,
+    0 10px 20px #00000014;
+}
 /* Картинка */
 .serviceCard__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.03);
+  transform: scale(1.05);
   transition: transform 0.6s ease-out;
+
 }
 
 .serviceCard:hover .serviceCard__img {
@@ -49,7 +79,7 @@
   transform: translateX(-50%);
 
   width: 85%; /* ширина текста */
-  max-width: 260px; /* ограничение чтобы было красиво */
+  max-width: 240px; /* ограничение чтобы было красиво */
   padding: 0 8px;
 
   color: #fff;
@@ -65,6 +95,7 @@
     0 2px 6px #000000d9,
     0 4px 12px #000000a6,
     0 8px 22px #00000073;
+    
 }
 
 /* ---------- Адаптация ---------- */

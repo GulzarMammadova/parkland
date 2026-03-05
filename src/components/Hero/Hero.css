@@ -7,11 +7,10 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding-top: 96px;
-  padding-bottom: 72px;
   background: #faf8f3;
-    padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
+
+  padding-top: calc(96px + env(safe-area-inset-top));
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 
 .hero__bg {
@@ -60,7 +59,7 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: 10px 24px 80px;
+  padding: 10px 24px 40px;
   color: var(--ivory);
   max-width: 540px;
 }

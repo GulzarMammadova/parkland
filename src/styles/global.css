@@ -1,113 +1,42 @@
 @import "./variables.css";
 
+/* =========================
+BASE
+========================= */
 
 html,
 body,
 #root {
-  /* height: 100%;*/
-  --header-h: 80px;
   scroll-behavior: smooth;
 }
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  scrollbar-width: thin;
-  scrollbar-color: #bda776 #f5f1e8;
   overscroll-behavior: none;
 }
 
-body::-webkit-scrollbar {
-  width: 6px;
-}
+/* =========================
+SCROLLBAR
+========================= */
 
-body::-webkit-scrollbar-track {
-  background: #f5f1e8;
-}
-
-body::-webkit-scrollbar-thumb {
-  background: #bda776;
-  border-radius: 10px;
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  background: #a48c63;
-}
-
-.container {
-  max-width: 1440px;
-  margin-inline: auto;
-  padding-inline: 48px;
-}
-
-.section {
-  padding: 30px 0;
-}
-
-.hidden {
-  display: none;
-}
-/* ====== Полноэкранные секции только для десктопов ====== */
-@media (min-width: 1024px) {
-  section.section,
-  section.services,
-  section.about,
-  section.hero {
-    min-height: 100vh; /* занимает всю высоту экрана */
-    display: flex; /* выравнивание содержимого */
-    flex-direction: column;
-    justify-content: center; /* по вертикали по центру */
-    align-items: center; /* по горизонтали по центру */
-    box-sizing: border-box;
-  }
-  .hero.section {
-  padding: 0 !important;
-  min-height: 100vh;
-  min-height: 100dvh;
-}
-  section.portfolio{
-    min-height: auto;
-    padding: 33px 0;
-    display: block;
-  }
-  .team.section {
-    padding-top: 1px;
-    padding-bottom: 64px;
-}
-}
-  /* чтобы контент не прилипал к краям */
-  .section .container,
-  .portfolio__container,
-  .services__container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    min-height: calc(100vh - var(--header-h, 80px));
-  }
-
-/* ====== Плавность при переходе между секциями ====== */
-html {
-  scroll-behavior: smooth;
-}
-/* 🌿 Базовые переменные под фирменные цвета ParkLand */
 :root {
-  --scrollbar-bg: #faf8f3; /* светлый фон (можно #E8E3D0) */
-  --scrollbar-thumb: #bda776; /* золотистый ползунок */
-  --scrollbar-thumb-hover: #a48c63; /* чуть темнее при наведении */
+  --scrollbar-bg: #faf8f3;
+  --scrollbar-thumb: #bda776;
+  --scrollbar-thumb-hover: #a48c63;
 }
 
-/* Firefox: тонкий и аккуратный скролл */
 * {
-  scrollbar-width: thin; /* auto | thin | none */
+  scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
-/* WebKit-браузеры: Chrome, Edge, Safari */
 *::-webkit-scrollbar {
-  width: 6px; /* толщина полосы */
-  height: 6px; /* для горизонтального скролла (если появится) */
+  width: 6px;
+  height: 6px;
 }
 
 *::-webkit-scrollbar-track {
@@ -117,9 +46,63 @@ html {
 *::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
   border-radius: 999px;
-  border: 1px solid #00000008; /* лёгкий объём */
+  border: 1px solid #00000008;
 }
 
 *::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover);
+}
+
+/* =========================
+LAYOUT SYSTEM
+========================= */
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* вертикальный ритм сайта */
+
+.section.hero,
+.section.about
+ {
+  padding: 80px 0;
+}
+.section.services{
+    padding: 45px 0;
+}
+
+.section.portfolio{
+    padding: 15px 0;
+}
+/* =========================
+HERO (единственная full-screen секция)
+========================= */
+
+.hero.section {
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+}
+
+/* =========================
+UTILITY
+========================= */
+
+.hidden {
+  display: none;
+}
+.services__container,
+.portfolio__container,
+.rl-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
 }

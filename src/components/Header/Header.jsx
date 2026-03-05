@@ -53,7 +53,7 @@ export function Header() {
       { id: "about", label: "About" },
       { id: "services", label: "Services" },
       { id: "portfolio", label: "Projects" },
-      { id: "recommendations", label: "Recommendation Letters" },
+      { id: "recommendations", label: "Testimonials" },
       { id: "team", label: "Team" },
     ],
     AZ: [

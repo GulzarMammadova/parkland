@@ -3,7 +3,6 @@
 ========== */
 .portfolio {
   background: var(--beige);
-
 }
 
 
@@ -23,7 +22,7 @@ html:focus-within {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 13px;
+  margin-bottom: 28px;
 }
 
 .portfolio__title {
@@ -140,11 +139,14 @@ html:focus-within {
 }
 
 .portfolio__grid--expanded {
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
 }
 
 /* ==========
-   КАРТОЧКА (ЧИСТАЯ НОВАЯ ВЕРСИЯ)
+   КАРТОЧКА
 ========== */
 .pCard {
   position: relative;
@@ -164,7 +166,8 @@ html:focus-within {
   background: #d6ccb4;
 }
 
-/* Градиент снизу (вариант 2) */
+
+/* Градиент снизу */
 .pCard__imageWrap::after {
   content: "";
   position: absolute;
@@ -172,7 +175,7 @@ html:focus-within {
   right: 0;
   bottom: 0;
   height: 45%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  background: linear-gradient(to top, #0000008c, #00000000);
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
@@ -240,8 +243,8 @@ html:focus-within {
   margin: 0 0 26px;
 
   text-shadow:
-    0 0 4px rgba(0, 0, 0, 0.35),
-    0 2px 6px rgba(0, 0, 0, 0.55);
+    0 0 4px #00000059,
+    0 2px 6px #0000008c;
 }
 
 /* ==========
@@ -414,4 +417,10 @@ html:focus-within {
 }
 .pCard__bar.is-active {
   box-shadow: 0 0 0 3px #bda77659;
+}
+
+@media (max-width: 900px) {
+  .portfolio__grid--expanded {
+    grid-template-columns: 1fr;
+  }
 }
