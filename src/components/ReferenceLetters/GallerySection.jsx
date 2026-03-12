@@ -5,7 +5,6 @@ import { letters } from "./data";
 export function GallerySection() {
   const [active, setActive] = useState(null);
 
-  // Блокировка scroll
   useEffect(() => {
     if (active) {
       document.body.style.overflow = "hidden";
@@ -14,19 +13,18 @@ export function GallerySection() {
     }
   }, [active]);
 
-  // ESC закрытие
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") setActive(null);
     };
+
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
   const openModal = (item) => {
-    // preload high-res
     const img = new Image();
-    img.src = item.highRes || item.image;
+    img.src = item.image;
     setActive(item);
   };
 
@@ -37,13 +35,14 @@ export function GallerySection() {
           <div key={item.id} className="rl-card">
             <motion.div layoutId={`card-${item.id}`} className="rl-image-wrapper">
               <img src={item.image} alt={item.title} />
+
               <div className="rl-overlay" onClick={() => openModal(item)}>
                 <div className="rl-expand">↗</div>
               </div>
             </motion.div>
 
             <div className="rl-card-footer">
-              <img src={item.logo} alt="" />
+              <img src={item.logo} alt={item.title} />
             </div>
           </div>
         ))}
@@ -64,16 +63,13 @@ export function GallerySection() {
               transition={{
                 type: "spring",
                 stiffness: 120,
-                damping: 20,
+                damping: 20
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <img src={active.highRes || active.image} alt="Preview" />
+              <img src={active.image} alt="Preview" />
 
-              <button
-                className="rl-close"
-                onClick={() => setActive(null)}
-              >
+              <button className="rl-close" onClick={() => setActive(null)}>
                 ✕
               </button>
             </motion.div>
