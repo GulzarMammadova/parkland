@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { useLang } from "../../context/LanguageContext";
 import { Link } from "react-router-dom";
-import logoImg from "../../../public/img/Parkland_logo.png"
+import logoImg from "/img/Parkland_logo.png"
 
 export function Header() {
   const { lang, setLang } = useLang();

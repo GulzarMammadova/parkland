@@ -2,7 +2,7 @@ import React from "react";
 import "./Footer.css";
 import { useLang } from "../../context/LanguageContext";
 import { Phone, Mail, Instagram } from "lucide-react";
-import logoImg from "../../../public/img/Parkland_logo.PNG"
+import logoImg from "/img/Parkland_logo.png"
 
 export function Footer() {
   const { lang } = useLang();
