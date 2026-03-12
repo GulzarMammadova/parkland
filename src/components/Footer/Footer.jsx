@@ -24,7 +24,7 @@ export function Footer() {
            <h4 className="ftr__h4">{copy[lang].contact}</h4>
             <a href="tel:+994125981393" className="ftr__contactItem">
               <span className="ftr__iconWrap"><Phone className="ftr__icon" /></span>
-              <span className="ftr__label">+994 (12) 598-13-93</span>
+              <span className="ftr__label">+994 (10) 2417060</span>
             </a>
 
             <a href="mailto:info@parkland.az" className="ftr__contactItem">
