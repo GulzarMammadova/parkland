@@ -1,7 +1,7 @@
 import React from "react";
 import { GallerySection } from "./GallerySection";
 import { useLang } from "../../context/LanguageContext";
-import "./referenceLetters.css";
+import "./ReferenceLetters.css";
 
 const translations = {
   AZ: "Tövsiyə məktubları",
